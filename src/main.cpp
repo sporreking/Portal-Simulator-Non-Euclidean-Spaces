@@ -1,7 +1,12 @@
+#include <iostream>
+
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 #include <glm/vec3.hpp>
+
+#include "input.h"
+#include "buttons.h"
 
 int main(void)
 {
@@ -30,14 +35,35 @@ int main(void)
 
     glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0);
 
+    /* Register window callbacks */
+    glfwSetKeyCallback(window, Input::keyCallback);
+    glfwSetMouseButtonCallback(window, Input::mouseButtonCallback);
+    glfwSetCursorPosCallback(window, Input::mousePosCallback);
+
+    /* Initialize input */
+    Input::init();
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
+        /* vv TEMP vv */
+        if (Input::pressed(BUTTON_FIRE))
+            std::cout << "FIRE!" << std::endl;
+        else if (Input::released(BUTTON_FIRE))
+            std::cout << "STOP!" << std::endl;
+        double a = Input::axis(AXIS_LOOK_VERTICAL);
+        if (a != 0)
+            std::cout << "Look: " << a << std::endl;
+        /* ^^ TEMP ^^ */
+
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
+
+        /* Update input states */
+        Input::update();
 
         /* Poll for and process events */
         glfwPollEvents();
