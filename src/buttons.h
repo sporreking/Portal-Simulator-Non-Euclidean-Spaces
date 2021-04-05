@@ -12,8 +12,7 @@
 #define AXIS_STRAFE 104
 
 /* Bind Input */
-void bindInput()
-{
+void bindInput() {
     /* BUTTONS */
     Input::bindKeyToButton(BUTTON_JUMP, GLFW_KEY_SPACE);
     Input::bindMouseToButton(BUTTON_FIRE, GLFW_MOUSE_BUTTON_1);

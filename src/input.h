@@ -1,15 +1,14 @@
 #pragma once
 
-#include <map>
+#include <GLFW/glfw3.h>
+
 #include <algorithm>
 #include <iostream>
-
-#include <GLFW/glfw3.h>
+#include <map>
 
 typedef unsigned int Button;
 
-enum ButtonState
-{
+enum ButtonState {
     UP = 0,
     DOWN = 1,
     PRESSED = 2,
@@ -18,28 +17,24 @@ enum ButtonState
 
 typedef unsigned int Axis;
 
-struct AxisRef
-{
+struct AxisRef {
     Axis axis;
     double sensitivity;
-    union
-    {
+    union {
         bool positive;
         bool invert;
     };
 };
 
-struct AxisState
-{
+struct AxisState {
     double limit;
     double value;
 };
 
 void bindInput();
 
-class Input
-{
-public:
+class Input {
+   public:
     // Should be called once before class usage
     static void init();
 
@@ -84,7 +79,7 @@ public:
     // Bind mouse Y movement to axis (axis must be initialized first)
     static void bindMouseYToAxis(Axis a, double sensitivity, bool invert);
 
-private:
+   private:
     // Mouse movement
     static double _mouseX, _mouseY;
     static double _mouseDX, _mouseDY;
