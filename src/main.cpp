@@ -3,13 +3,13 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+
 #include <glm/vec3.hpp>
 
-#include "input.h"
 #include "buttons.h"
+#include "input.h"
 
-int main(void)
-{
+int main(void) {
     GLFWwindow *window;
 
     /* Initialize the library */
@@ -18,8 +18,7 @@ int main(void)
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
+    if (!window) {
         glfwTerminate();
         return -1;
     }
@@ -44,8 +43,7 @@ int main(void)
     Input::init();
 
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
+    while (!glfwWindowShouldClose(window)) {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
