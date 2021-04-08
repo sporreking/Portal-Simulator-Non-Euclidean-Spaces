@@ -1,11 +1,11 @@
 #include "fileloader.h"
 
-std::string FileLoader::loadText(std::string path) {
+std::string FileLoader::loadText(std::string const& path) {
     std::ifstream stream(path);
     std::string str;
 
     if (!stream) {
-        std::cout << "Could not open file: \"" << path << "\"" << std::endl;
+        std::cerr << "Could not open file: \"" << path << "\"" << std::endl;
         throw -1;
     }
 
