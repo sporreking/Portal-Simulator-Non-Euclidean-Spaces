@@ -3,8 +3,6 @@
 #include <iostream>
 #include <map>
 
-#include "buttons.h"
-
 template <typename T>
 class Registry {
    public:
