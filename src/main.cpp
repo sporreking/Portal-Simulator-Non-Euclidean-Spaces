@@ -8,6 +8,7 @@
 
 #include "buttons.h"
 #include "input.h"
+#include "registries.h"
 
 int main(void) {
     GLFWwindow *window;
@@ -41,6 +42,9 @@ int main(void) {
 
     /* Initialize input */
     Input::init();
+
+    /* Initialize registries */
+    REG::init();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
