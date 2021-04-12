@@ -9,6 +9,8 @@ class Registry {
     // The class may only be instantiated by friends
     Registry<T>() = delete;
 
+    inline void init() { _init(this); }
+
     // Puts a value into the registry
     Registry<T>* put(std::string const& name, T* val) {
         if (_bank.count(name)) {
@@ -29,10 +31,14 @@ class Registry {
     }
 
    private:
-    // The passed function will be called with this registry, and is supposed to populate it.
+    // Creates a new registry for resource storage.
+    // The passed function will be called when Registry::init() is called.
     Registry<T>(void (*init)(Registry<T>*)) {
-        init(this);
+        _init = init;
     }
+
+    // Init function (called in Registry::init)
+    void (*_init)(Registry<T>*);
 
     // Delete values from registry
     ~Registry<T>() {
