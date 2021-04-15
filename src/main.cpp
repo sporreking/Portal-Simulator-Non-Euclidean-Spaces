@@ -9,6 +9,7 @@
 #include "buttons.h"
 #include "input.h"
 #include "registries.h"
+#include "time.h"
 
 int main(void) {
     GLFWwindow *window;
@@ -46,8 +47,14 @@ int main(void) {
     /* Initialize registries */
     REG::init();
 
+    /* Initialize Time */
+    Time::init();
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
+        /* Update Time */
+        Time::update();
+
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -56,9 +63,13 @@ int main(void) {
             std::cout << "FIRE!" << std::endl;
         else if (Input::released(BUTTON_FIRE))
             std::cout << "STOP!" << std::endl;
+
         double a = Input::axis(AXIS_LOOK_VERTICAL);
         if (a != 0)
             std::cout << "Look: " << a << std::endl;
+
+        if (Input::down(BUTTON_JUMP))
+            std::cout << "Time: " << Time::current() << "\t\tDelta: " << Time::delta() << std::endl;
         /* ^^ TEMP ^^ */
 
         /* Swap front and back buffers */
