@@ -15,12 +15,19 @@ void initTextures(Registry<Texture> *reg) {
                             ->setWrap(GL_REPEAT));
 }
 
+/* -- Register Meshes -- */
+void initMeshes(Registry<Mesh> *reg) {
+    reg->put("bunny", (new Mesh("./res/model/bunnyplus.obj")));
+}
+
 /* -- Initialization Function -- */
 void REG::init() {
     _shaderPrograms.init();
     _textures.init();
+    _meshes.init();
 }
 
 /* -- Registry Instantiations -- */
 Registry<ShaderProgram> REG::_shaderPrograms(initShaderPrograms);
 Registry<Texture> REG::_textures(initTextures);
+Registry<Mesh> REG::_meshes(initMeshes);
