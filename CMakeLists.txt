@@ -16,7 +16,8 @@ find_package(OpenGL REQUIRED)
 
 # Add executable
 file(GLOB SOURCES src/*.cpp)
-add_executable(PortalSimulator ${SOURCES} glad/glad.c)
+file(GLOB LIBS lib/*.c)
+add_executable(PortalSimulator ${SOURCES} glad/glad.c ${LIBS})
 
 # Configure output directory
 set_target_properties(PortalSimulator PROPERTIES RUNTIME_OUTPUT_DIRECTORY build/)
