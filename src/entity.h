@@ -9,7 +9,11 @@
 #include <vector>
 
 #include "component.h"
+#include "room.h"
 #include "transform.h"
+
+// Forward declaration
+class Room;
 
 class Entity {
    public:
@@ -35,7 +39,9 @@ class Entity {
     std::vector<T*> getComponents();
 
     /* -- Room -- */
-    //Room* getRoom();
+
+    // Returns the room of this entity (or nullptr if there is no room)
+    inline Room* getRoom() { return _parent == nullptr ? _room : _parent->getRoom(); }
 
     /* -- Transform -- */
     inline Transform* getTransform() { return &_transform; }
@@ -43,10 +49,13 @@ class Entity {
     glm::mat4 getGlobalTransformMatrix();
 
    private:
+    Room* _room{nullptr};
     std::vector<Entity*> _children;
     std::vector<Component*> _components;
     Entity* _parent{nullptr};
     Transform _transform;
+
+    friend class Room;
 };
 
 #include "entity.tcc"
