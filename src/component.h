@@ -4,6 +4,7 @@
 #include <iostream>
 
 class Entity;
+class Room;
 
 class Component {
    public:
@@ -11,6 +12,8 @@ class Component {
 
     virtual void update(double const& dt) = 0;
     virtual void render(glm::mat4 const& m) = 0;
+    virtual void enterRoom(Room* newRoom) = 0;
+    virtual void exitRoom(Room* oldRoom) = 0;
     virtual void attach() = 0;
     virtual void detach() = 0;
 
