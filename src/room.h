@@ -5,6 +5,11 @@
 
 #include "entity.h"
 
+// Light forward declarations
+namespace COMP {
+class PointLight;
+}
+
 typedef size_t RoomID;
 
 class Room {
@@ -31,8 +36,17 @@ class Room {
     inline bool hasEntity(std::string const& tag) { return _entities.count(tag); }
     inline Entity* getEntity(std::string const& tag) { return _entities.at(tag); }
     inline std::map<std::string, Entity*> getEntities() { return _entities; }
+    inline std::vector<Component*> getLights() { return _lights; }
 
    private:
     RoomID _id;
     std::map<std::string, Entity*> _entities;
+    std::vector<Component*> _lights;
+
+    // Appends a light to this room (only call with light components)
+    void _appendLight(Component* c);
+    void _removeLight(Component* c);
+
+    // Light friends
+    friend class COMP::PointLight;
 };
