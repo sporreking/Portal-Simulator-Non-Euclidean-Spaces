@@ -21,8 +21,8 @@ Room* Room::addEntity(std::string const& tag, Entity* e) {
         throw -1;
     }
 
-    e->_room = this;
     _entities.emplace(tag, e);
+    e->_enterRoom(this);
 
     return this;
 }
@@ -59,8 +59,8 @@ Entity* Room::retrieveEntity(std::string const& tag, Room* from, std::string con
 
 Entity* Room::removeEntity(std::string const& tag) {
     Entity* e = _entities.at(tag);
+    e->_exitRoom(this);
     _entities.erase(tag);
-    e->_room = nullptr;
     return e;
 }
 
@@ -78,6 +78,9 @@ std::string Room::getTag(Entity* e) {
 }
 
 Room::~Room() {
+    for (auto&& e : _entities)
+        e.second->_exitRoom(this);
+
     for (auto&& e : _entities)
         delete e.second;
 

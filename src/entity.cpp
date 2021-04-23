@@ -7,6 +7,11 @@ Entity::Entity(Entity* parent) {
 }
 
 Entity::~Entity() {
+    if (_room != nullptr) {
+        std::cerr << "Trying to delete an entity which belongs to a room!" << std::endl;
+        exit(-1);
+    }
+
     for (auto c : _components)
         c->detach();
 
@@ -42,6 +47,9 @@ Entity* Entity::addChild(Entity* e) {
     }
     _children.push_back(e);
     e->_parent = this;
+    if (_room != nullptr)
+        e->_enterRoom(_room);
+
     return this;
 }
 
@@ -53,6 +61,8 @@ Entity* Entity::addComponent(Component* comp) {
     _components.push_back(comp);
     comp->_parent = this;
     comp->attach();
+    if (_room != nullptr)
+        comp->enterRoom(_room);
     return this;
 }
 
@@ -70,4 +80,24 @@ glm::mat4 Entity::getGlobalTransformMatrix() {
     if (_parent)
         return _parent->getGlobalTransformMatrix() * _transform.matrix();
     return glm::mat4(1.0) * _transform.matrix();
+}
+
+void Entity::_enterRoom(Room* room) {
+    _room = room;
+
+    for (auto c : _components)
+        c->enterRoom(room);
+
+    for (auto e : _children)
+        e->_enterRoom(room);
+}
+
+void Entity::_exitRoom(Room* room) {
+    for (auto c : _components)
+        c->exitRoom(room);
+
+    for (auto e : _children)
+        e->_exitRoom(room);
+
+    _room = nullptr;
 }

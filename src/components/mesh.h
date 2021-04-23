@@ -2,6 +2,7 @@
 
 #include "../component.h"
 #include "../mesh.h"
+#include "../room.h"
 
 namespace COMP {
 class Mesh : public Component {
@@ -11,6 +12,8 @@ class Mesh : public Component {
 
     void update(double const& dt) override {}
     void render(glm::mat4 const& m) override {}
+    void enterRoom(Room* newRoom) override {}
+    void exitRoom(Room* oldRoom) override {}
     void attach() override {}
     void detach() override {}
 

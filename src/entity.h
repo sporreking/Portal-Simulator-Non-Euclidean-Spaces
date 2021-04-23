@@ -41,7 +41,7 @@ class Entity {
     /* -- Room -- */
 
     // Returns the room of this entity (or nullptr if there is no room)
-    inline Room* getRoom() { return _parent == nullptr ? _room : _parent->getRoom(); }
+    inline Room* getRoom() { return _room; }
 
     /* -- Transform -- */
     inline Transform* getTransform() { return &_transform; }
@@ -54,6 +54,9 @@ class Entity {
     std::vector<Component*> _components;
     Entity* _parent{nullptr};
     Transform _transform;
+
+    void _enterRoom(Room* room);
+    void _exitRoom(Room* room);
 
     friend class Room;
 };
