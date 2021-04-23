@@ -23,6 +23,6 @@ std::string FileLoader::loadText(std::string const& path) {
 }
 
 unsigned char* FileLoader::loadTexture(std::string const& path, uint32_t* width,
-                                       uint32_t* height, uint32_t* numChannels) {
-    return stbi_load(path.c_str(), (int*)width, (int*)height, (int*)numChannels, 4);
+                                       uint32_t* height, uint32_t* nrChannels) {
+    return stbi_load(path.c_str(), (int*)width, (int*)height, (int*)nrChannels, 4);
 }

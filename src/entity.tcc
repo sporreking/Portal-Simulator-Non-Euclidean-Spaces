@@ -1,5 +1,5 @@
 template <typename T>
-size_t Entity::numComponents() {
+size_t Entity::nrComponents() {
     size_t count{0};
 
     for (auto&& c : _components)

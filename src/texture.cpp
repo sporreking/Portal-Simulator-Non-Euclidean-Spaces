@@ -30,7 +30,7 @@ Texture* Texture::setWrap(GLenum val) {
 
 void Texture::_loadTexture(std::string const& path) {
     // Load texture data
-    unsigned char* data = FileLoader::loadTexture(path, &_width, &_height, &_numChannels);
+    unsigned char* data = FileLoader::loadTexture(path, &_width, &_height, &_nrChannels);
 
     // Send to GPU
     bind();

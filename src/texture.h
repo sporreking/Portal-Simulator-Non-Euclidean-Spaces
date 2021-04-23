@@ -24,12 +24,12 @@ class Texture {
 
     inline uint32_t getWidth() { return _width; }
     inline uint32_t getHeight() { return _height; }
-    inline uint32_t getNumChannels() { return _numChannels; }
+    inline uint32_t getNrChannels() { return _nrChannels; }
 
     inline GLuint getHandle() { return _handle; }
 
    private:
-    uint32_t _width{0}, _height{0}, _numChannels{0};
+    uint32_t _width{0}, _height{0}, _nrChannels{0};
     GLuint _handle{0};
 
     void _loadTexture(std::string const& path);
