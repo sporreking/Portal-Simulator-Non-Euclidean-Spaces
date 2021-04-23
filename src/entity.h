@@ -30,7 +30,7 @@ class Entity {
     Entity* addComponents(std::vector<Component*> v);
 
     template <typename T>
-    size_t numComponents();
+    size_t nrComponents();
 
     template <typename T>
     T* getComponent();
