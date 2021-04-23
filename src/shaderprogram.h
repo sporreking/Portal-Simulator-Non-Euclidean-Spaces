@@ -11,13 +11,18 @@
 #define ATTLOC_COLOR 3
 
 class ShaderProgram {
-public:
+   public:
     ShaderProgram(std::vector<Shader*> const& shaders);
     ~ShaderProgram();
 
+    inline ShaderProgram* bind() {
+        glUseProgram(_handle);
+        return this;
+    };
+
     inline GLuint getHandle() { return _handle; }
 
-private:
+   private:
     void _linkShaders(std::vector<Shader*> const& shaders);
-    GLuint _handle{ 0 };
+    GLuint _handle{0};
 };
