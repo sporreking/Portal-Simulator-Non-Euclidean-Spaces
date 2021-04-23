@@ -7,18 +7,18 @@
 
 class Mesh {
    public:
-    Mesh(size_t nrVertices, GLfloat *verts,
-         GLfloat *norms, GLfloat *texCoords,
-         size_t nrIndices, GLuint *indices);
+    Mesh(size_t nrVertices, GLfloat* verts,
+         GLfloat* norms, GLfloat* texCoords,
+         size_t nrIndices, GLuint* indices);
 
-    Mesh(size_t nrVertices, GLfloat *verts, GLfloat *norms,
-         GLfloat *texCoords);
+    Mesh(size_t nrVertices, GLfloat* verts, GLfloat* norms,
+         GLfloat* texCoords);
 
-    Mesh(std::string const &modelPath);
+    Mesh(std::string const& modelPath);
 
     ~Mesh();
 
-    inline Mesh *bind() {
+    inline Mesh* bind() {
         glBindVertexArray(_vao);
         return this;
     }

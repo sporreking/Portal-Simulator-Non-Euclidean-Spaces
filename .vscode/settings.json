@@ -1,7 +1,8 @@
 {
     "terminal.integrated.shell.windows": "cmd.exe",
     "editor.formatOnSave": true,
-    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0}",
+    "C_Cpp.formatting": "Default",
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0 }",
     "files.associations": {
         "array": "cpp",
         "atomic": "cpp",
@@ -92,5 +93,5 @@
         "queue": "cpp",
         "stack": "cpp",
         "semaphore": "cpp"
-    }
+    },
 }
