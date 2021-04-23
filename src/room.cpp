@@ -77,6 +77,14 @@ std::string Room::getTag(Entity* e) {
     return it->first;
 }
 
+void Room::_appendLight(Component* c) {
+    _lights.push_back(c);
+}
+
+void Room::_removeLight(Component* c) {
+    _lights.erase(std::remove(_lights.begin(), _lights.end(), c), _lights.end());
+}
+
 Room::~Room() {
     for (auto&& e : _entities)
         e.second->_exitRoom(this);
