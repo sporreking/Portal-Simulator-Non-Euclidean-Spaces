@@ -17,6 +17,8 @@ class Material : public Component {
 
     void update(double const &dt) override {}
     void render(glm::mat4 const &m) override {}
+    void enterRoom(Room *newRoom) override {}
+    void exitRoom(Room *oldRoom) override {}
     void attach() override {}
     void detach() override {}
 
