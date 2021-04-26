@@ -7,6 +7,41 @@ ShaderProgram::ShaderProgram(std::vector<Shader*> const& shaders) {
     _linkShaders(shaders);
 }
 
+ShaderProgram* ShaderProgram::sendLights(std::vector<Component*> const& lights,
+                                         glm::mat4 const& transformMatrix) {
+    size_t i{0};
+    for (Component* light : lights) {
+        // Check light type
+        if (dynamic_cast<COMP::PointLight*>(light)) {
+            // Point light
+            COMP::PointLight* pl = dynamic_cast<COMP::PointLight*>(light);
+
+            _lightTypes[i] = LIGHT_TYPE_POINT;
+            _lightPositions[i] = glm::vec3(transformMatrix * glm::vec4{pl->position(), 1.0});
+            _lightColors[i] = pl->color;
+            _lightRanges[i] = pl->range;
+
+            i++;
+        } else {
+            // Unknown light
+            std::cerr << "Unknown light source type!" << std::endl;
+        }
+    }
+
+    // Send uniforms
+    bind();
+    glUniform1ui(UNILOC_NR_LIGHTS, i);
+
+    if (i > 0) {
+        glUniform1uiv(UNILOC_LIGHT_TYPES, i, _lightTypes);
+        glUniform3fv(UNILOC_LIGHT_POSITIONS, i, (float*)_lightPositions);
+        glUniform3fv(UNILOC_LIGHT_COLORS, i, (float*)_lightColors);
+        glUniform1dv(UNILOC_LIGHT_RANGES, i, _lightRanges);
+    }
+
+    return this;
+}
+
 void ShaderProgram::_linkShaders(std::vector<Shader*> const& shaders) {
     // Attach shaders
     for (Shader* shader : shaders)
