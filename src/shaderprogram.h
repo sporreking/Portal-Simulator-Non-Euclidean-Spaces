@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "components/material.h"
 #include "components/pointlight.h"
 #include "shader.h"
 
@@ -21,6 +22,12 @@
 #define UNILOC_LIGHT_COLORS 1096
 #define UNILOC_LIGHT_RANGES 1128
 
+#define UNILOC_MATERIAL_KD 2000
+#define UNILOC_MATERIAL_KS 2001
+#define UNILOC_MATERIAL_ALPHA 2002
+#define UNILOC_MATERIAL_COLOR 2003
+#define UNILOC_MATERIAL_SAMPLER 2004
+
 // Light types
 #define LIGHT_TYPE_POINT 0
 #define LIGHT_TYPE_DIRECTIONAL 1
@@ -35,6 +42,8 @@ class ShaderProgram {
 
     ShaderProgram* sendLights(std::vector<Component*> const& lights,
                               glm::mat4 const& transformMatrix = glm::mat4{1.0});
+
+    ShaderProgram* sendMaterial(COMP::Material* const material, uint32_t sampler = 0);
 
     inline ShaderProgram* bind() {
         glUseProgram(_handle);

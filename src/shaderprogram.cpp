@@ -42,6 +42,19 @@ ShaderProgram* ShaderProgram::sendLights(std::vector<Component*> const& lights,
     return this;
 }
 
+ShaderProgram* ShaderProgram::sendMaterial(COMP::Material* const material,
+                                           uint32_t sampler) {
+    bind();
+
+    glUniform1d(UNILOC_MATERIAL_KD, material->kd);
+    glUniform1d(UNILOC_MATERIAL_KS, material->ks);
+    glUniform1d(UNILOC_MATERIAL_ALPHA, material->alpha);
+    glUniform3fv(UNILOC_MATERIAL_COLOR, 1, (float*)&material->color);
+    glUniform1ui(UNILOC_MATERIAL_SAMPLER, sampler);
+
+    return this;
+}
+
 void ShaderProgram::_linkShaders(std::vector<Shader*> const& shaders) {
     // Attach shaders
     for (Shader* shader : shaders)
