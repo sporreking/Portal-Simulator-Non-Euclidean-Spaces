@@ -18,4 +18,5 @@ class Shader {
     void _compile(std::string const& source);
     GLuint _handle{0};
     GLenum _type;
+    std::string const _path;
 };

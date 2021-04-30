@@ -1,7 +1,7 @@
 #include "shader.h"
 
 Shader::Shader(GLenum type, std::string const& path)
-    : _type{type} {
+    : _type{type}, _path{path} {
     // Create shader
     _handle = glCreateShader(_type);
 
@@ -29,7 +29,7 @@ void Shader::_compile(std::string const& source) {
 
         // Print error log
         std::cerr << "################################" << std::endl;
-        std::cerr << "### Could not compile shader ###" << std::endl;
+        std::cerr << "### Could not compile shader: \"" << _path << "\"" << std::endl;
         std::cerr << (char*)message << std::flush;
         std::cerr << "################################" << std::endl;
 
