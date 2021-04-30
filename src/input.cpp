@@ -1,7 +1,8 @@
 #include "input.h"
 
-void Input::init() {
+void Input::init(GLFWwindow *window) {
     bindInput();
+    _window = window;
 }
 
 void Input::update() {
@@ -131,6 +132,8 @@ double Input::_axisValue(Axis a) {
 
     return v;
 }
+
+GLFWwindow *Input::_window{nullptr};
 
 double Input::_mouseX = -1, Input::_mouseY = -1;
 double Input::_mouseDX = 0, Input::_mouseDY = 0;
