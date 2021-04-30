@@ -42,7 +42,7 @@ int main(void) {
     glfwSetCursorPosCallback(window, Input::mousePosCallback);
 
     /* Initialize input */
-    Input::init();
+    Input::init(window);
 
     /* Initialize registries */
     REG::init();

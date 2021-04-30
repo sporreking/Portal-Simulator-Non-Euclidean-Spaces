@@ -36,7 +36,7 @@ void bindInput();
 class Input {
    public:
     // Should be called once before class usage
-    static void init();
+    static void init(GLFWwindow *window);
 
     // Should be called at the end of every frame before event processing
     static void update();
@@ -79,7 +79,14 @@ class Input {
     // Bind mouse Y movement to axis (axis must be initialized first)
     static void bindMouseYToAxis(Axis a, double sensitivity, bool invert);
 
+    /* -- Misc -- */
+    static inline void grabMouse(bool grab) { glfwSetInputMode(_window, GLFW_CURSOR, grab ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL); }
+    static inline bool mouseGrabbed() { return glfwGetInputMode(_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED; }
+
    private:
+    // Core
+    static GLFWwindow *_window;
+
     // Mouse movement
     static double _mouseX, _mouseY;
     static double _mouseDX, _mouseDY;
