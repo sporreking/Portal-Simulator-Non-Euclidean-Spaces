@@ -6,6 +6,15 @@
 #include "shaderprogram.h"
 #include "texture.h"
 
+/* -- Resource Names -- */
+
+#define SHADER_PROGRAM_PHONG "phong"
+#define SHADER_PROGRAM_TEST "test"
+
+#define TEXTURE_DEFAULT "default"
+
+#define MESH_BUNNY "bunny"
+
 /* -- Registry Declarations -- */
 class REG {
    public:

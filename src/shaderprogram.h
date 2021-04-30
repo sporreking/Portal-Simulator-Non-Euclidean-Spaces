@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 
 #include "components/material.h"
@@ -13,8 +15,9 @@
 #define ATTLOC_COLOR 3
 
 // Uniform locations
-#define UNILOC_MODEL_VIEW_MAT 0
-#define UNILOC_PROJECTION_MAT 1
+#define UNILOC_MODEL_MAT 0
+#define UNILOC_VIEW_MAT 1
+#define UNILOC_PROJECTION_MAT 2
 
 #define UNILOC_NR_LIGHTS 1000  // Increments according to MAX_LIGHTS
 #define UNILOC_LIGHT_TYPES 1032
@@ -34,6 +37,10 @@
 
 // Constants
 #define MAX_LIGHTS 32
+#define FOV 90.0
+#define ASPECT_RATIO 1.0
+#define NEAR_PLANE 0.01
+#define FAR_PLANE 100.0
 
 class ShaderProgram {
    public:
@@ -51,6 +58,7 @@ class ShaderProgram {
     };
 
     inline GLuint getHandle() { return _handle; }
+    static glm::mat4 const PROJECTION_MATRIX;
 
    private:
     void _linkShaders(std::vector<Shader*> const& shaders);
@@ -66,5 +74,5 @@ class ShaderProgram {
 
     // Point lights
 
-    double _lightRanges[MAX_LIGHTS];
+    float _lightRanges[MAX_LIGHTS];
 };
