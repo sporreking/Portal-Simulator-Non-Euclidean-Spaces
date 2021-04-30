@@ -1,5 +1,8 @@
 #include "shaderprogram.h"
 
+glm::mat4 const ShaderProgram::PROJECTION_MATRIX{
+    glm::perspective(FOV, ASPECT_RATIO, NEAR_PLANE, FAR_PLANE)};
+
 ShaderProgram::ShaderProgram(std::vector<Shader*> const& shaders) {
     // Create program
     _handle = glCreateProgram();
@@ -17,9 +20,9 @@ ShaderProgram* ShaderProgram::sendLights(std::vector<Component*> const& lights,
             COMP::PointLight* pl = dynamic_cast<COMP::PointLight*>(light);
 
             _lightTypes[i] = LIGHT_TYPE_POINT;
-            _lightPositions[i] = glm::vec3(transformMatrix * glm::vec4{pl->position(), 1.0});
+            _lightPositions[i] = glm::vec3(transformMatrix * glm::vec4{pl->position(), 1.0f});
             _lightColors[i] = pl->color;
-            _lightRanges[i] = pl->range;
+            _lightRanges[i] = (float)pl->range;
 
             i++;
         } else {
@@ -36,7 +39,7 @@ ShaderProgram* ShaderProgram::sendLights(std::vector<Component*> const& lights,
         glUniform1uiv(UNILOC_LIGHT_TYPES, i, _lightTypes);
         glUniform3fv(UNILOC_LIGHT_POSITIONS, i, (float*)_lightPositions);
         glUniform3fv(UNILOC_LIGHT_COLORS, i, (float*)_lightColors);
-        glUniform1dv(UNILOC_LIGHT_RANGES, i, _lightRanges);
+        glUniform1fv(UNILOC_LIGHT_RANGES, i, _lightRanges);
     }
 
     return this;
@@ -46,10 +49,10 @@ ShaderProgram* ShaderProgram::sendMaterial(COMP::Material* const material,
                                            uint32_t sampler) {
     bind();
 
-    glUniform1d(UNILOC_MATERIAL_KD, material->kd);
-    glUniform1d(UNILOC_MATERIAL_KS, material->ks);
-    glUniform1d(UNILOC_MATERIAL_ALPHA, material->alpha);
-    glUniform3fv(UNILOC_MATERIAL_COLOR, 1, (float*)&material->color);
+    glUniform1f(UNILOC_MATERIAL_KD, (float)material->kd);
+    glUniform1f(UNILOC_MATERIAL_KS, (float)material->ks);
+    glUniform1f(UNILOC_MATERIAL_ALPHA, (float)material->alpha);
+    glUniform3fv(UNILOC_MATERIAL_COLOR, 1, glm::value_ptr(material->color));
     glUniform1ui(UNILOC_MATERIAL_SAMPLER, sampler);
 
     return this;

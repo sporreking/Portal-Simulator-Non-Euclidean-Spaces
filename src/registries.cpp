@@ -5,19 +5,23 @@
 void initShaderPrograms(Registry<ShaderProgram> *reg) {
     Shader testVert = Shader(GL_VERTEX_SHADER, "./res/shader/test.vert");
     Shader testFrag = Shader(GL_FRAGMENT_SHADER, "./res/shader/test.frag");
-    reg->put("test", new ShaderProgram({&testVert, &testFrag}));
+    reg->put(SHADER_PROGRAM_TEST, new ShaderProgram({&testVert, &testFrag}));
+
+    Shader phongVert = Shader(GL_VERTEX_SHADER, "./res/shader/phong.vert");
+    Shader phongFrag = Shader(GL_FRAGMENT_SHADER, "./res/shader/phong.frag");
+    reg->put(SHADER_PROGRAM_PHONG, new ShaderProgram({&phongVert, &phongFrag}));
 }
 
 /* -- Register Textures -- */
 void initTextures(Registry<Texture> *reg) {
-    reg->put("default", (new Texture("./res/texture/default.png"))
-                            ->setMinMagFilter(GL_NEAREST)
-                            ->setWrap(GL_REPEAT));
+    reg->put(TEXTURE_DEFAULT, (new Texture("./res/texture/default.png"))
+                                  ->setMinMagFilter(GL_NEAREST)
+                                  ->setWrap(GL_REPEAT));
 }
 
 /* -- Register Meshes -- */
 void initMeshes(Registry<Mesh> *reg) {
-    reg->put("bunny", (new Mesh("./res/model/bunnyplus.obj")));
+    reg->put(MESH_BUNNY, (new Mesh("./res/model/bunnyplus.obj")));
 }
 
 /* -- Initialization Function -- */
