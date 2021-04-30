@@ -1,6 +1,7 @@
 {
     "terminal.integrated.shell.windows": "cmd.exe",
     "editor.formatOnSave": true,
+    "cmake.configureOnOpen": false,
     "C_Cpp.formatting": "Default",
     "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0 }",
     "files.associations": {
@@ -92,6 +93,10 @@
         "locale": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "semaphore": "cpp"
+        "semaphore": "cpp",
+        "strstream": "cpp",
+        "complex": "cpp",
+        "csignal": "cpp",
+        "cfenv": "cpp"
     },
 }
