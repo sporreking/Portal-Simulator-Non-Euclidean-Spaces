@@ -2,7 +2,6 @@
 
 void Time::init() {
     _startTime = sinceEpochNS();
-    _currentTime = _startTime;
 }
 
 void Time::update() {
@@ -29,6 +28,6 @@ uint64_t Time::sinceEpochNS() {
         .count();
 }
 
-uint64_t Time::_startTime = 0;
-double Time::_currentTime = 0;
-double Time::_deltaTime = 0;
+uint64_t Time::_startTime{0};
+double Time::_currentTime{0};
+double Time::_deltaTime{0};
