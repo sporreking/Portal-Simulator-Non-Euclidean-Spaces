@@ -7,7 +7,7 @@ Mesh::Mesh(size_t nrVertices, GLfloat *verts, GLfloat *norms,
            GLfloat *texCoords, size_t nrIndices, GLuint *indices)
     : _nrVertices{nrVertices}, _nrIndices{nrIndices} {
     // Bind VAO
-    glCreateVertexArrays(1, &_vao);
+    glGenVertexArrays(1, &_vao);
     bind();
 
     // Bind buffer for vertex positions
@@ -47,7 +47,6 @@ Mesh::Mesh(size_t nrVertices, GLfloat *verts, GLfloat *norms,
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, nrIndices * sizeof(GLuint), indices, GL_STATIC_DRAW);
     }
-
     glBindVertexArray(0);  // Previous vertex array binding is broken
 }
 
