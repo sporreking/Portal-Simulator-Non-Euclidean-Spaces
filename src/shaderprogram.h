@@ -6,6 +6,7 @@
 
 #include "components/material.h"
 #include "components/pointlight.h"
+#include "config.h"
 #include "shader.h"
 
 // Attribute locations
@@ -38,7 +39,7 @@
 // Constants
 #define MAX_LIGHTS 32
 #define FOV 90.0
-#define ASPECT_RATIO 1.0
+#define ASPECT_RATIO (((double)WINDOW_WIDTH) / WINDOW_HEIGHT)
 #define NEAR_PLANE 0.01
 #define FAR_PLANE 100.0
 
