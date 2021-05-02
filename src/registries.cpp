@@ -21,7 +21,15 @@ void initTextures(Registry<Texture> *reg) {
 
 /* -- Register Meshes -- */
 void initMeshes(Registry<Mesh> *reg) {
-    reg->put(MESH_BUNNY, (new Mesh("./res/model/bunnyplus.obj")));
+    // Quad
+    GLfloat quadPos[12] = {-.5, -.5, .0, -.5, .5, .0, .5, .5, .0, .5, -.5, .0};
+    GLfloat quadNorm[12] = {.0, .0, 1.0, .0, .0, 1.0, .0, .0, 1.0, .0, .0, 1.0};
+    GLfloat quadTex[8] = {0, 0, 0, 1, 1, 1, 1, 0};
+    GLuint quadInd[6] = {0, 1, 2, 2, 3, 0};
+    reg->put(MESH_QUAD, new Mesh(4, quadPos, quadNorm, quadTex, 6, quadInd));
+
+    // Bunny
+    reg->put(MESH_BUNNY, new Mesh("./res/model/bunnyplus.obj"));
 }
 
 /* -- Initialization Function -- */

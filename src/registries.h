@@ -13,6 +13,7 @@
 
 #define TEXTURE_DEFAULT "default"
 
+#define MESH_QUAD "quad"
 #define MESH_BUNNY "bunny"
 
 /* -- Registry Declarations -- */
