@@ -7,6 +7,7 @@
 #include <glm/vec3.hpp>
 
 #include "buttons.h"
+#include "config.h"
 #include "input.h"
 #include "registries.h"
 #include "time.h"
@@ -19,7 +20,7 @@ int main(void) {
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
