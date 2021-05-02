@@ -28,7 +28,7 @@ in vec3 pass_Position;
 in vec3 pass_Normal;
 in vec2 pass_TexCoords;
 
-out vec4 out_Color;
+layout(location=0) out vec4 out_Color;
 
 // Constants
 const float AMBIENT_STRENGTH = 0.1;
