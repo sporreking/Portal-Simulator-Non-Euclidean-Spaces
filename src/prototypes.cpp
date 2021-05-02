@@ -3,7 +3,7 @@
 #include "components/playercontroller.h"
 
 namespace PROT {
-Entity* newPlayer(double const& speed = 1.0, bool noclip = false) {
+Entity* newPlayer(double const& speed, bool noclip) {
     return (new Entity)->addComponent(new COMP::PlayerController(speed, noclip));
 }
 }  // namespace PROT
