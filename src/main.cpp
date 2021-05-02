@@ -32,9 +32,11 @@ int main(void) {
     /* Load GLAD */
     gladLoadGL();
 
-    /* Set clear color with GLM */
-    glm::vec3 clearColor(1, 0, 1);
+    /* GL Config */
+    glEnable(GL_DEPTH_TEST);
 
+    /* Set clear color with GLM */
+    glm::vec3 clearColor = BACKGROUND_COLOR;
     glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0);
 
     /* Register window callbacks */
@@ -57,21 +59,7 @@ int main(void) {
         Time::update();
 
         /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        /* vv TEMP vv */
-        if (Input::pressed(BUTTON_FIRE))
-            std::cout << "FIRE!" << std::endl;
-        else if (Input::released(BUTTON_FIRE))
-            std::cout << "STOP!" << std::endl;
-
-        double a = Input::axis(AXIS_LOOK_VERTICAL);
-        if (a != 0)
-            std::cout << "Look: " << a << std::endl;
-
-        if (Input::down(BUTTON_JUMP))
-            std::cout << "Time: " << Time::current() << "\t\tDelta: " << Time::delta() << std::endl;
-        /* ^^ TEMP ^^ */
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
