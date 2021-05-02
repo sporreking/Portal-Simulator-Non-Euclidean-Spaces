@@ -4,9 +4,9 @@
 
 #include "../component.h"
 #include "../registries.h"
+#include "../room.h"
 #include "material.h"
 #include "mesh.h"
-#include "room.h"
 
 namespace COMP {
 class PhongRenderer : public Component {
@@ -29,9 +29,8 @@ class PhongRenderer : public Component {
 
         // Send Matrices
         glm::mat4 modelMat = _parent->getGlobalTransformMatrix();
-        glm::mat4 viewMat = glm::inverse(_parent->getRoom()->getEntity(TAG_PLAYER)->getTransform()->matrix());
         glUniformMatrix4fv(UNILOC_MODEL_MAT, 1, GL_FALSE, glm::value_ptr(modelMat));
-        glUniformMatrix4fv(UNILOC_VIEW_MAT, 1, GL_FALSE, glm::value_ptr(viewMat));
+        glUniformMatrix4fv(UNILOC_VIEW_MAT, 1, GL_FALSE, glm::value_ptr(m));
         glUniformMatrix4fv(UNILOC_PROJECTION_MAT, 1, GL_FALSE, glm::value_ptr(ShaderProgram::PROJECTION_MATRIX));
 
         // Render Mesh
