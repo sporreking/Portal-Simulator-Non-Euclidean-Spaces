@@ -5,15 +5,12 @@
 
 #include "entity.h"
 
-// Constants
-#define TAG_PLAYER "player"
-
 // Light forward declarations
 namespace COMP {
 class PointLight;
 }
 
-typedef size_t RoomID;
+typedef int RoomID;
 
 class Room {
    public:
