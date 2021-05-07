@@ -19,6 +19,13 @@ class PhongRenderer : public Component {
     void exitRoom(Room* oldRoom) override {}
 
     void render(glm::mat4 const& m) override {
+        // Get cameras
+        std::vector<COMP::Camera*> cameras = _parent->getRoom()->getCameras();
+
+        // Skip render pass if there are no cameras
+        if (cameras.empty())
+            return;
+
         // Send Lights
         _SHADER_PROGRAM->bind();
         _SHADER_PROGRAM->sendLights(_parent->getRoom()->getLights());
@@ -29,9 +36,14 @@ class PhongRenderer : public Component {
 
         // Send Matrices
         glm::mat4 modelMat = _parent->getGlobalTransformMatrix();
-        glUniformMatrix4fv(UNILOC_MODEL_MAT, 1, GL_FALSE, glm::value_ptr(modelMat));
-        glUniformMatrix4fv(UNILOC_VIEW_MAT, 1, GL_FALSE, glm::value_ptr(m));
-        glUniformMatrix4fv(UNILOC_PROJECTION_MAT, 1, GL_FALSE, glm::value_ptr(ShaderProgram::PROJECTION_MATRIX));
+        glUniformMatrix4fv(UNILOC_MODEL_MAT, 1, GL_FALSE,
+                           glm::value_ptr(modelMat));
+
+        glUniformMatrix4fv(UNILOC_VIEW_MAT, 1, GL_FALSE,
+                           glm::value_ptr(cameras[0]->viewMatrix()));
+
+        glUniformMatrix4fv(UNILOC_PROJECTION_MAT, 1, GL_FALSE,
+                           glm::value_ptr(cameras[0]->projectionMatrix()));
 
         // Render Mesh
         _mesh->MESH->bind();

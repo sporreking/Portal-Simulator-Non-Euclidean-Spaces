@@ -5,10 +5,11 @@
 
 #include "entity.h"
 
-// Light forward declarations
+// Component forward declarations
 namespace COMP {
 class PointLight;
-}
+class Camera;
+}  // namespace COMP
 
 typedef int RoomID;
 
@@ -36,16 +37,25 @@ class Room {
     inline bool hasEntity(std::string const& tag) { return _entities.count(tag); }
     inline Entity* getEntity(std::string const& tag) { return _entities.at(tag); }
     inline std::map<std::string, Entity*> getEntities() { return _entities; }
+    inline std::vector<COMP::Camera*> getCameras() { return _cameras; }
     inline std::vector<Component*> getLights() { return _lights; }
 
    private:
     RoomID _id;
     std::map<std::string, Entity*> _entities;
+    std::vector<COMP::Camera*> _cameras;
     std::vector<Component*> _lights;
+
+    // Appends a camera to this room
+    void _appendCamera(COMP::Camera* c);
+    void _removeCamera(COMP::Camera* c);
 
     // Appends a light to this room (only call with light components)
     void _appendLight(Component* c);
     void _removeLight(Component* c);
+
+    // Camera friend
+    friend class COMP::Camera;
 
     // Light friends
     friend class COMP::PointLight;

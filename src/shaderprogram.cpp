@@ -1,8 +1,5 @@
 #include "shaderprogram.h"
 
-glm::mat4 const ShaderProgram::PROJECTION_MATRIX{
-    glm::perspective(FOV, ASPECT_RATIO, NEAR_PLANE, FAR_PLANE)};
-
 ShaderProgram::ShaderProgram(std::vector<Shader*> const& shaders) {
     // Create program
     _handle = glCreateProgram();
