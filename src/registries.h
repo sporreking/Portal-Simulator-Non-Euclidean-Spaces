@@ -12,8 +12,10 @@
 #define SHADER_PROGRAM_TEST "test"
 
 #define TEXTURE_DEFAULT "default"
+#define TEXTURE_WALL "wall"
 
 #define MESH_QUAD "quad"
+#define MESH_CUBE "cube"
 #define MESH_BUNNY "bunny"
 
 /* -- Registry Declarations -- */
