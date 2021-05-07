@@ -38,10 +38,6 @@
 
 // Constants
 #define MAX_LIGHTS 32
-#define FOV 90.0
-#define ASPECT_RATIO (((double)WINDOW_WIDTH) / WINDOW_HEIGHT)
-#define NEAR_PLANE 0.01
-#define FAR_PLANE 100.0
 
 class ShaderProgram {
    public:
@@ -59,7 +55,6 @@ class ShaderProgram {
     };
 
     inline GLuint getHandle() { return _handle; }
-    static glm::mat4 const PROJECTION_MATRIX;
 
    private:
     void _linkShaders(std::vector<Shader*> const& shaders);

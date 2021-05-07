@@ -77,6 +77,14 @@ std::string Room::getTag(Entity* e) {
     return it->first;
 }
 
+void Room::_appendCamera(COMP::Camera* c) {
+    _cameras.push_back(c);
+}
+
+void Room::_removeCamera(COMP::Camera* c) {
+    _cameras.erase(std::remove(_cameras.begin(), _cameras.end(), c), _cameras.end());
+}
+
 void Room::_appendLight(Component* c) {
     _lights.push_back(c);
 }

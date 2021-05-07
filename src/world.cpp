@@ -34,7 +34,7 @@ void World::update(double const& dt) {
 }
 
 void World::render() {
-    _current->render(glm::inverse(_player->getTransform()->matrix()));
+    _current->render(glm::mat4(1.0));
 }
 
 void World::changeRoom(RoomID newRoom, glm::vec3 const& newPos) {
