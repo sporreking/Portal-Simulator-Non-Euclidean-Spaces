@@ -10,11 +10,11 @@ void bindInput() {
     /* AXIS */
     Input::initAxis(AXIS_LOOK_VERTICAL, 0);
     Input::bindKeysToAxis(AXIS_LOOK_VERTICAL, GLFW_KEY_I, GLFW_KEY_K, 0.5);
-    Input::bindMouseYToAxis(AXIS_LOOK_VERTICAL, 0.002, false);
+    Input::bindMouseYToAxis(AXIS_LOOK_VERTICAL, 0.2, false);
 
     Input::initAxis(AXIS_LOOK_HORIZONTAL, 0);
     Input::bindKeysToAxis(AXIS_LOOK_HORIZONTAL, GLFW_KEY_L, GLFW_KEY_J, 0.5);
-    Input::bindMouseXToAxis(AXIS_LOOK_HORIZONTAL, 0.002, false);
+    Input::bindMouseXToAxis(AXIS_LOOK_HORIZONTAL, 0.2, false);
 
     Input::initAxis(AXIS_FORWARD, 1.0);
     Input::bindKeysToAxis(AXIS_FORWARD, GLFW_KEY_W, GLFW_KEY_S);
