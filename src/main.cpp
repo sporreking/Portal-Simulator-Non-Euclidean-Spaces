@@ -45,6 +45,9 @@ int main(void) {
     glfwSetMouseButtonCallback(window, Input::mouseButtonCallback);
     glfwSetCursorPosCallback(window, Input::mousePosCallback);
 
+    /* Disable VSync */
+    glfwSwapInterval(0);
+
     /* Initialize input */
     Input::init(window);
 
