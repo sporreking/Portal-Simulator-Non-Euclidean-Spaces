@@ -31,8 +31,8 @@ class PlayerController : public Component {
             t->pos.y += ascend * speed * dt;
 
             // Camera
-            t->rot.y -= Input::axis(AXIS_LOOK_HORIZONTAL);
-            t->rot.x -= Input::axis(AXIS_LOOK_VERTICAL);
+            t->rot.y -= Input::axis(AXIS_LOOK_HORIZONTAL) * dt;
+            t->rot.x -= Input::axis(AXIS_LOOK_VERTICAL) * dt;
 
         } else {
             //TODO::Fix
