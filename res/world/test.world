@@ -1,0 +1,29 @@
+# Set world title
+# - Usage: world <name>
+world TestWorld
+
+
+# Create room with ID 0
+# - Usage: room <id>
+room 0
+
+# Spawn player in current room
+# - Usage: player <pos> <rot> <speed> <noclip>
+player 0,0,0 0,0,0 2.0 true
+
+# Add walls
+# - Usage: wall <pos> <rot> <width> <height> [color] [thickness]
+wall 0,0,0 -90,0,0 10 4 red # Floor 1
+wall -5,1.5,0 0,90,0 4 3 green # Left
+wall 0,1.5,2 0,-180,0 10 3 blue # Close
+wall 4,0,-5 -90,0,0 2 6 purple 0.3 # Floor 2
+
+# Add objects
+# - Usage: obj <mesh> <pos> <rot> <scale> <texture> <kd> <ks> <alpha> [color]
+obj bunny 3,.5,0 0,0,0 1,1,1 default .5 1 40
+obj bunny 3,1,-4 10,30,20 .8,.8,.8 wall .7 .7 20 1,.5,.1
+
+# Add lights
+# - Usage: light <type> <pos> <rot> <... depends on type>
+# - Usage: light point <pos> <rot> <range>
+light point 0,1,0 1,1,1 5
