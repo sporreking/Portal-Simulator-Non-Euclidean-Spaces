@@ -57,6 +57,8 @@ int main(void) {
     /* Initialize Time */
     Time::init();
 
+    World* world = WorldLoader::load("./res/world/test.world");
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
         /* Update Time */
@@ -64,6 +66,9 @@ int main(void) {
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        world->update(Time::delta());
+        world->render();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -74,6 +79,8 @@ int main(void) {
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    delete world;
 
     glfwTerminate();
     return 0;
