@@ -6,7 +6,10 @@
 #include "room.h"
 
 // Constants
+#define TAG_LIGHTS "lights"
+#define TAG_OBJECTS "objects"
 #define TAG_PLAYER "player"
+#define TAG_WALLS "walls"
 
 class World {
    public:
