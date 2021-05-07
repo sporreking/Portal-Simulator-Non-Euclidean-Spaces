@@ -17,16 +17,17 @@ void initTextures(Registry<Texture> *reg) {
     reg->put(TEXTURE_DEFAULT, (new Texture("./res/texture/default.png"))
                                   ->setMinMagFilter(GL_NEAREST)
                                   ->setWrap(GL_REPEAT));
+    reg->put(TEXTURE_WALL, (new Texture("./res/texture/wall.png"))
+                               ->setMinMagFilter(GL_NEAREST)
+                               ->setWrap(GL_REPEAT));
 }
 
 /* -- Register Meshes -- */
 void initMeshes(Registry<Mesh> *reg) {
-    // Quad
-    GLfloat quadPos[12] = {-.5, -.5, .0, -.5, .5, .0, .5, .5, .0, .5, -.5, .0};
-    GLfloat quadNorm[12] = {.0, .0, 1.0, .0, .0, 1.0, .0, .0, 1.0, .0, .0, 1.0};
-    GLfloat quadTex[8] = {0, 0, 0, 1, 1, 1, 1, 0};
-    GLuint quadInd[6] = {0, 1, 2, 2, 3, 0};
+#include "meshprimitives.inl"
+    // Primitives
     reg->put(MESH_QUAD, new Mesh(4, quadPos, quadNorm, quadTex, 6, quadInd));
+    reg->put(MESH_CUBE, new Mesh(24, cubePos, cubeNorm, cubeTex, 6 * 6, cubeInd));
 
     // Bunny
     reg->put(MESH_BUNNY, new Mesh("./res/model/bunnyplus.obj"));
