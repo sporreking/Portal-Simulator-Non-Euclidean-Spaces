@@ -54,13 +54,13 @@ void main() {
         else if (lightTypes[i] == LIGHT_TYPE_DIRECTIONAL)
             lightNorm = transpose(inverse(mat3(viewMat))) * lightPositions[i];
 
-        float diffuse = dot(lightNorm, normal);
+        float diffuse = clamp(dot(lightNorm, normal), 0, 1);
 
         // Specular Lighting
         vec3 reflectNorm = reflect(-lightNorm, normal);
         vec3 lookDirection = normalize(-pass_Position);
 
-        float specularStrength = dot(reflectNorm, lookDirection);
+        float specularStrength = clamp(dot(reflectNorm, lookDirection), 0, 1);
         float specular = pow(max(specularStrength, 0.01), alpha);
 
         intensity += (kd * diffuse + ks * specular) * lightColors[i];
