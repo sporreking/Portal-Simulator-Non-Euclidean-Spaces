@@ -1,0 +1,162 @@
+#include <glm/gtx/string_cast.hpp>
+
+#include "worldloader.h"
+
+// Assert the validity of the current room in a world context
+void assertValidRoom(WorldContext* ctx) {
+    // Check if there is a current room
+    if (!ctx->currentRoom)
+        throw std::domain_error("There is no current room.");
+}
+
+// Assert that there are at least n arguments
+void assertNrArgs(std::vector<Argument> const& args, size_t n, std::string const& cond) {
+    if (args.size() < n)
+        throw std::invalid_argument(std::string("Invalid number of arguments (expected a minimum of ") +
+                                    std::to_string(n) + " subject to \"" + cond + "\" but got " +
+                                    std::to_string(args.size()) + ").");
+}
+
+// Define core properties of the world
+void worldFunc(WorldContext* ctx, std::vector<Argument> const& args) {
+    ctx->name = args[0].asString();
+}
+
+// Create room and select as current
+void roomFunc(WorldContext* ctx, std::vector<Argument> const& args) {
+    RoomID id = args[0].asInt();
+
+    // Check if room already exists
+    for (Room* r : ctx->rooms)
+        if (r->getID() == id)
+            throw std::invalid_argument(std::string("The room ID ") +
+                                        std::to_string(id) + " is already occupied.");
+
+    // Create new room
+    ctx->currentRoom = new Room(id);
+    ctx->rooms.push_back(ctx->currentRoom);
+}
+
+// Add player to the current room
+void playerFunc(WorldContext* ctx, std::vector<Argument> const& args) {
+    assertValidRoom(ctx);
+
+    // Create player in current room
+    ctx->player.room = ctx->currentRoom->getID();
+    ctx->player.pos = args[0].asVec3();
+    ctx->player.rot = args[1].asVec3();
+    ctx->player.speed = args[2].asDouble();
+    ctx->player.noclip = args[3].asBool();
+}
+
+// Add a wall to the current room
+void wallFunc(WorldContext* ctx, std::vector<Argument> const& args) {
+    assertValidRoom(ctx);
+
+    // Create empty light parent if non-existent
+    if (!ctx->currentRoom->hasEntity(TAG_WALLS))
+        ctx->currentRoom->addEntity(TAG_WALLS, new Entity);
+
+    // Saturation
+    double sat = 0.5;
+
+    // Rotation
+    glm::vec3 rot = args[1].asVec3();
+
+    // Create and append wall entity
+    if (args.size() < 5)  // No color, nor thickness
+        ctx->currentRoom->getEntity(TAG_WALLS)
+            ->addChild(PROT::newWall(args[0].asVec3(), rot / (180 / (float)M_PI),
+                                     args[2].asDouble(), args[3].asDouble()));
+    else if (args.size() < 6)  // No thickness
+        ctx->currentRoom->getEntity(TAG_WALLS)
+            ->addChild(PROT::newWall(args[0].asVec3(), rot / (180 / (float)M_PI),
+                                     args[2].asDouble(), args[3].asDouble(), args[4].asColor(sat)));
+    else  // Color and thickness
+        ctx->currentRoom->getEntity(TAG_WALLS)
+            ->addChild(PROT::newWall(args[0].asVec3(), rot / (180 / (float)M_PI),
+                                     args[2].asDouble(), args[3].asDouble(),
+                                     args[4].asColor(sat), args[5].asDouble()));
+}
+
+// Add a light to the current room
+void lightFunc(WorldContext* ctx, std::vector<Argument> const& args) {
+    assertValidRoom(ctx);
+
+    Component* light;
+
+    std::string type = args[0].asString(true);
+    glm::vec3 pos = args[1].asVec3();
+    glm::vec3 color = args[2].asVec3();
+
+    // Check light type
+    if (type == "point") {
+        assertNrArgs(args, 4, type);
+        light = new COMP::PointLight(color, args[3].asDouble());
+    } else
+        throw std::invalid_argument(std::string("Invalid light type: \"") + type + "\"");
+
+    // Create empty light parent if non-existent
+    if (!ctx->currentRoom->hasEntity(TAG_LIGHTS))
+        ctx->currentRoom->addEntity(TAG_LIGHTS, new Entity);
+
+    // Create and append light entity
+    Entity* e = (new Entity)->addComponent(light);
+    e->getTransform()->pos = pos;
+
+    ctx->currentRoom->getEntity(TAG_LIGHTS)->addChild(e);
+}
+
+void objFunc(WorldContext* ctx, std::vector<Argument> const& args) {
+    assertValidRoom(ctx);
+
+    std::string meshName = args[0].asString();
+    glm::vec3 pos = args[1].asVec3();
+    glm::vec3 rot = args[2].asVec3();
+    glm::vec3 scale = args[3].asVec3();
+
+    std::string texName = args[4].asString();
+    double kd = args[5].asDouble();
+    double ks = args[6].asDouble();
+    double alpha = args[7].asDouble();
+
+    glm::vec3 color = glm::vec3(1.0);
+
+    if (args.size() > 8)  // Fetch optional color argument
+        color = args[8].asVec3();
+
+    // Get resources
+    Mesh* mesh = REG::MESHES().get(meshName);
+    Texture* tex = REG::TEXTURES().get(texName);
+
+    // Check if mesh exists
+    if (!mesh)
+        throw std::invalid_argument(std::string("Unknown mesh name: \"") + meshName + "\"");
+
+    // Check if texture exists
+    if (!tex)
+        throw std::invalid_argument(std::string("Unknown texture name: \"") + texName + "\"");
+
+    // Create empty object parent if non-existent
+    if (!ctx->currentRoom->hasEntity(TAG_OBJECTS))
+        ctx->currentRoom->addEntity(TAG_OBJECTS, new Entity);
+
+    // Create and append object entity
+    Entity* e = new Entity;
+    e->getTransform()->pos = pos;
+    e->getTransform()->rot = rot;
+    e->getTransform()->scale = scale;
+    e->addComponents({new COMP::Mesh(mesh), new COMP::Material(tex, kd, ks, alpha, color), new COMP::PhongRenderer()});
+
+    ctx->currentRoom->getEntity(TAG_OBJECTS)->addChild(e);
+}
+
+// Register commands
+void WorldLoader::init() {
+    _commands.emplace("world", std::make_pair(worldFunc, 1));
+    _commands.emplace("room", std::make_pair(roomFunc, 1));
+    _commands.emplace("player", std::make_pair(playerFunc, 4));
+    _commands.emplace("wall", std::make_pair(wallFunc, 4));
+    _commands.emplace("light", std::make_pair(lightFunc, 3));
+    _commands.emplace("obj", std::make_pair(objFunc, 8));
+}

@@ -11,6 +11,7 @@
 #include "input.h"
 #include "registries.h"
 #include "time.h"
+#include "worldloader.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -46,6 +47,9 @@ int main(void) {
 
     /* Initialize input */
     Input::init(window);
+
+    /* Initialize world loader */
+    WorldLoader::init();
 
     /* Initialize registries */
     REG::init();
