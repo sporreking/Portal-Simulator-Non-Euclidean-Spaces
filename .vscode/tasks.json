@@ -5,7 +5,7 @@
             "label": "build",
             "type": "shell",
             "windows": {
-                "command": "cmake -G \"MinGW Makefiles\" . && mingw32-make"
+                "command": "cmake -G \\\"MinGW Makefiles\\\" . ; if ($?) {mingw32-make}"
             },
             "linux": {
                 "command": "cmake . && make",
@@ -20,7 +20,7 @@
             "label": "build & run",
             "type": "shell",
             "windows": {
-                "command": "cmake -G \"MinGW Makefiles\" . && mingw32-make && \"./build/PortalSimulator.exe\""
+                "command": "cmake -G \\\"MinGW Makefiles\\\" . ; if ($?) {mingw32-make ; if ($?) {./build/PortalSimulator}}"
             },
             "linux": {
                 "command": "cmake . && make && ./build/PortalSimulator",
