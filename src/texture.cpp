@@ -32,9 +32,19 @@ void Texture::_loadTexture(std::string const& path) {
     // Load texture data
     unsigned char* data = FileLoader::loadTexture(path, &_width, &_height, &_nrChannels);
 
+    // Check if texture was found
+    if (!data) {
+        std::cerr << "Unable to locate texture: \"" << path << "\"" << std::endl;
+        FileLoader::freeTextureData(data);
+        throw -1;
+    }
+
     // Send to GPU
     bind();
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+    // Free texture data
+    FileLoader::freeTextureData(data);
 }
 
 Texture::~Texture() {
