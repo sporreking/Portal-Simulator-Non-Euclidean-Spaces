@@ -17,6 +17,8 @@ class Component {
     virtual void attach() = 0;
     virtual void detach() = 0;
 
+    inline Entity* getParent() { return _parent; }
+
    protected:
     Entity* _parent{nullptr};
     friend class Entity;
