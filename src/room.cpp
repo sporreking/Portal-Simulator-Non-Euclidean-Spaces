@@ -1,16 +1,16 @@
 #include "room.h"
 
 void Room::update(double const& dt) {
-    for (auto&& e : _entities)
+    for (auto&& e : _priorities)
         e.second->update(dt);
 }
 
 void Room::render(glm::mat4 const& m) {
-    for (auto&& e : _entities)
+    for (auto&& e : _priorities)
         e.second->render(m);
 }
 
-Room* Room::addEntity(std::string const& tag, Entity* e) {
+Room* Room::addEntity(std::string const& tag, Entity* e, Priority p) {
     if (_entities.count(tag)) {
         std::cerr << "There is already an entity with tag \"" << tag << "\"" << std::endl;
         throw -1;
@@ -21,15 +21,16 @@ Room* Room::addEntity(std::string const& tag, Entity* e) {
         throw -1;
     }
 
-    _entities.emplace(tag, e);
+    _entities.emplace(tag, (EntityRef){p, e});
+    _priorities.emplace(p, e);
     e->_enterRoom(this);
 
     return this;
 }
 
-Room* Room::addEntities(std::map<std::string, Entity*> const& m) {
+Room* Room::addEntities(std::map<std::string, Entity*> const& m, Priority p) {
     for (auto&& e : m)
-        addEntity(e.first, e.second);
+        addEntity(e.first, e.second, p);
     return this;
 }
 
@@ -39,10 +40,10 @@ Entity* Room::transferEntity(std::string const& tag, Room* target, std::string c
         throw -1;
     }
 
-    Entity* e = removeEntity(tag);
-    target->addEntity(newTag.empty() ? tag : newTag, e);
+    EntityRef ref = removeEntity(tag);
+    target->addEntity(newTag.empty() ? tag : newTag, ref.entity, ref.priority);
 
-    return e;
+    return ref.entity;
 }
 
 Entity* Room::retrieveEntity(std::string const& tag, Room* from, std::string const& newTag) {
@@ -51,22 +52,32 @@ Entity* Room::retrieveEntity(std::string const& tag, Room* from, std::string con
         throw -1;
     }
 
-    Entity* e = from->removeEntity(tag);
-    addEntity(newTag.empty() ? tag : newTag, e);
+    EntityRef ref = from->removeEntity(tag);
+    addEntity(newTag.empty() ? tag : newTag, ref.entity, ref.priority);
 
-    return e;
+    return ref.entity;
 }
 
-Entity* Room::removeEntity(std::string const& tag) {
-    Entity* e = _entities.at(tag);
-    e->_exitRoom(this);
+EntityRef Room::removeEntity(std::string const& tag) {
+    EntityRef& ref = _entities.at(tag);
+    ref.entity->_exitRoom(this);
     _entities.erase(tag);
-    return e;
+
+    // Remove from priorities
+    auto itpair = _priorities.equal_range(ref.priority);
+    auto it = itpair.first;
+    for (; it != itpair.second; it++)
+        if (it->second == ref.entity) {
+            _priorities.erase(it);
+            break;
+        }
+
+    return ref;
 }
 
 std::string Room::getTag(Entity* e) {
     auto it = std::find_if(_entities.begin(), _entities.end(), [e](auto&& p) {
-        return p.second == e;
+        return p.second.entity == e;
     });
 
     if (it == _entities.end()) {
@@ -94,11 +105,12 @@ void Room::_removeLight(Component* c) {
 }
 
 Room::~Room() {
-    for (auto&& e : _entities)
+    for (auto&& e : _priorities)
         e.second->_exitRoom(this);
 
-    for (auto&& e : _entities)
+    for (auto&& e : _priorities)
         delete e.second;
 
+    _priorities.clear();
     _entities.clear();
 }
