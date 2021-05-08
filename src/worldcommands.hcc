@@ -35,6 +35,15 @@ void roomFunc(WorldContext* ctx, std::vector<Argument> const& args) {
     // Create new room
     ctx->currentRoom = new Room(id);
     ctx->rooms.push_back(ctx->currentRoom);
+
+    // Add skybox if applicable
+    if (args.size() > 1) {
+        // Evaluate skybox ID
+        int skyboxID = args[1].asInt();
+
+        // Create skybox entity
+        ctx->currentRoom->addEntity(TAG_SKYBOX, PROT::newSkybox(skyboxID), PRIORITY_HIGHEST);
+    }
 }
 
 // Add player to the current room
