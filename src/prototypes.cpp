@@ -17,4 +17,16 @@ Entity* newWall(glm::vec3 const& pos, glm::vec3 const& rot,
 
     return e;
 }
+
+Entity* newSkybox(unsigned int id) {
+    if (id < 0 || id >= NR_SKYBOXES)
+        throw std::invalid_argument(std::string("Skybox ID must be in range {0 ... ") +
+                                    std::to_string(NR_SKYBOXES - 1) + "}");
+
+    Entity* skybox = new Entity;
+    skybox->addComponent(new COMP::Material(REG::TEXTURES().get(
+        std::string(CUBEMAP_SKY) + std::to_string(id))));
+    skybox->addComponent(new COMP::SkyboxRenderer());
+    return skybox;
+}
 }  // namespace PROT
