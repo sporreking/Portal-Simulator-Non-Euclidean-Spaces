@@ -4,8 +4,8 @@ world TestWorld
 
 
 # Create room with ID 0
-# - Usage: room <id>
-room 0
+# - Usage: room <id> [skybox ID]
+room 0 5
 
 # Spawn player in current room
 # - Usage: player <pos> <rot> <speed> <noclip>
