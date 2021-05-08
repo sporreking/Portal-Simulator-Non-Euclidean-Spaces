@@ -10,4 +10,7 @@ class FileLoader {
 
     // Load texture from file
     static unsigned char* loadTexture(std::string const& path, uint32_t* width, uint32_t* height, uint32_t* nrChannels);
+
+    // Free texture data
+    static void freeTextureData(unsigned char* data);
 };

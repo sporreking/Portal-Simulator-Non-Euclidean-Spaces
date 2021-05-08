@@ -10,15 +10,15 @@ class Texture {
    public:
     Texture();
     Texture(std::string const& path);
-    ~Texture();
+    virtual ~Texture();
 
     // Binds this texture to the specified texture slot
-    Texture* bind(uint32_t t = 0);
+    virtual Texture* bind(uint32_t t = 0);
 
     /* - Parameter Setters - */
 
-    Texture* setMinMagFilter(GLenum val);
-    Texture* setWrap(GLenum val);
+    virtual Texture* setMinMagFilter(GLenum val);
+    virtual Texture* setWrap(GLenum val);
 
     /* - Parameter Getters - */
 
@@ -28,9 +28,10 @@ class Texture {
 
     inline GLuint getHandle() { return _handle; }
 
-   private:
+   protected:
     uint32_t _width{0}, _height{0}, _nrChannels{0};
     GLuint _handle{0};
 
+   private:
     void _loadTexture(std::string const& path);
 };
