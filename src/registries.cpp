@@ -14,6 +14,10 @@ void initShaderPrograms(Registry<ShaderProgram> *reg) {
     Shader skyboxVert = Shader(GL_VERTEX_SHADER, "./res/shader/skybox.vert");
     Shader skyboxFrag = Shader(GL_FRAGMENT_SHADER, "./res/shader/skybox.frag");
     reg->put(SHADER_PROGRAM_SKYBOX, new ShaderProgram({&skyboxVert, &skyboxFrag}));
+
+    Shader linkVert = Shader(GL_VERTEX_SHADER, "./res/shader/link.vert");
+    Shader linkFrag = Shader(GL_FRAGMENT_SHADER, "./res/shader/link.frag");
+    reg->put(SHADER_PROGRAM_LINK, new ShaderProgram({&linkVert, &linkFrag}));
 }
 
 /* -- Register Textures -- */

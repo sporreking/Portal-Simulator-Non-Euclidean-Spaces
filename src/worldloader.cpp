@@ -91,6 +91,7 @@ World* WorldLoader::load(std::string const& filePath) {
     std::string key;
     std::vector<Argument> args;
     WorldContext context;
+    context.frameBuffer = new FrameBuffer(WINDOW_WIDTH, WINDOW_HEIGHT, true);
     size_t line{0};
     while (!stream.eof()) {
         std::getline(stream, cmd);
@@ -157,6 +158,25 @@ World* WorldLoader::load(std::string const& filePath) {
     COMP::PlayerController* ctrl = world->getPlayer()->getComponent<COMP::PlayerController>();
     ctrl->speed = context.player.speed;
     ctrl->noclip = context.player.noclip;
+
+    // Connect links
+    for (auto&& l : context.links) {
+        // Get link component from link entity in our room
+        COMP::LinkRenderer* link = l.first->getComponent<COMP::LinkRenderer>();
+        LinkConnection& ref = l.second;
+
+        Room* targetRoom = world->getRoom(ref.targetRoom);
+
+        // Check link validity
+        if (!targetRoom || targetRoom->getEntity(TAG_LINKS)->nrChildren() <= ref.targetID) {
+            std::cerr << "Invalid link: room ID: " << ref.targetRoom << ", link ID: " << ref.targetID << std::endl;
+            throw -1;
+        }
+        // Connect our link to target link
+        link->connect(targetRoom->getEntity(TAG_LINKS)
+                          ->getChild(ref.targetID)
+                          ->getComponent<COMP::LinkRenderer>());
+    }
 
     return world;
 }
