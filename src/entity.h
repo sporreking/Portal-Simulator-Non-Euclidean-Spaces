@@ -24,6 +24,9 @@ class Entity {
     void render(glm::mat4 const& m);
     Entity* getParent();
     Entity* addChild(Entity* e);
+    inline Entity* getChild(size_t id) { return _children.at(id); }
+    inline std::vector<Entity*> getChildren() { return _children; }
+    inline size_t nrChildren() { return _children.size(); }
 
     /* -- Components -- */
     Entity* addComponent(Component* comp);
