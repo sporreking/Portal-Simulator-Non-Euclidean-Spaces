@@ -16,6 +16,7 @@ class Camera;
 
 // Type declarations
 typedef int RoomID;
+typedef int LinkID;
 typedef unsigned int Priority;
 
 // Entity reference

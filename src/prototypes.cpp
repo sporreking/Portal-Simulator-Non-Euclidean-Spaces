@@ -1,7 +1,5 @@
 #include "prototypes.h"
 
-#include "components/playercontroller.h"
-
 namespace PROT {
 Entity* newPlayer(double const& speed, bool noclip) {
     return (new Entity)->addComponents({new COMP::PlayerController(speed, noclip), (new COMP::Camera)->setPerspective(FOV, ASPECT_RATIO, NEAR_PLANE, FAR_PLANE)});
@@ -28,5 +26,18 @@ Entity* newSkybox(unsigned int id) {
         std::string(CUBEMAP_SKY) + std::to_string(id))));
     skybox->addComponent(new COMP::SkyboxRenderer());
     return skybox;
+}
+
+Entity* newLink(glm::vec3 const& pos, glm::vec3 const& rot,
+                double const& width, double const& height, FrameBuffer* frameBuffer) {
+    Entity* link = new Entity;
+
+    // Add link
+    link->addComponent(new COMP::LinkRenderer(frameBuffer));
+    link->getTransform()->pos = pos;
+    link->getTransform()->rot = rot;
+    link->getTransform()->scale = {width, height, 1};
+
+    return link;
 }
 }  // namespace PROT

@@ -11,6 +11,7 @@
 
 #define SHADER_PROGRAM_PHONG "phong"
 #define SHADER_PROGRAM_SKYBOX "skybox"
+#define SHADER_PROGRAM_LINK "link"
 #define SHADER_PROGRAM_TEST "test"
 
 #define TEXTURE_DEFAULT "default"

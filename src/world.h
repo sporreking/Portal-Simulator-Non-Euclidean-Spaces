@@ -7,6 +7,7 @@
 
 // Constants
 #define TAG_LIGHTS "lights"
+#define TAG_LINKS "links"
 #define TAG_OBJECTS "objects"
 #define TAG_PLAYER "player"
 #define TAG_SKYBOX "skybox"

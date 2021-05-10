@@ -29,9 +29,16 @@ class Argument {
     void _fillVec(size_t n, float* ptr) const;
 };
 
+// Link reference
+struct LinkConnection {
+    RoomID targetRoom;
+    LinkID targetID;
+};
+
 // Configuration used to create a world
 struct WorldContext {
     std::string name;
+    FrameBuffer* frameBuffer;
     struct {
         RoomID room;
         glm::vec3 pos;
@@ -41,6 +48,7 @@ struct WorldContext {
     } player;
     Room* currentRoom{nullptr};
     std::vector<Room*> rooms;
+    std::map<Entity*, LinkConnection> links;
 };
 
 // Command function (world file lines are parsed to this format)
