@@ -16,19 +16,22 @@ class PlayerController : public Component {
         }
 
         if (noclip) {
-            // Movement
-            double forward = Input::axis(AXIS_FORWARD);
-            double strafe = Input::axis(AXIS_STRAFE);
-            double ascend = Input::axis(AXIS_ASCEND);
+            // Direction scalars
+            float forward = Input::axis(AXIS_FORWARD) * dt;
+            float strafe = Input::axis(AXIS_STRAFE) * dt;
+            float ascend = Input::axis(AXIS_ASCEND) * dt;
 
+            // Compute directions
             Transform *t = _parent->getTransform();
+            glm::mat4 m = glm::rotate(glm::mat4(1.0), t->rot.y, glm::vec3(0, 1, 0));
+            m = glm::rotate(m, t->rot.x, glm::vec3(1, 0, 0));
+            m = glm::rotate(m, t->rot.z, glm::vec3(0, 0, 1));
 
-            double dz = -forward * std::cos(t->rot.y) + strafe * std::sin(-t->rot.y);
-            double dx = forward * std::sin(-t->rot.y) + strafe * std::cos(t->rot.y);
-
-            t->pos.z += dz * speed * dt;
-            t->pos.x += dx * speed * dt;
-            t->pos.y += ascend * speed * dt;
+            // Translate along scaled directions
+            glm::vec3 diff = forward * glm::vec3(0, 0, -1) +
+                             strafe * glm::vec3(1, 0, 0) +
+                             ascend * glm::vec3(0, 1, 0);
+            t->pos += glm::vec3(m * glm::vec4(diff, 1));
 
             // Camera
             t->rot.y -= Input::axis(AXIS_LOOK_HORIZONTAL) * dt;
