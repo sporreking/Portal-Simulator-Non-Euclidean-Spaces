@@ -24,4 +24,7 @@ void bindInput() {
 
     Input::initAxis(AXIS_ASCEND, 1.0);
     Input::bindKeysToAxis(AXIS_ASCEND, GLFW_KEY_SPACE, GLFW_KEY_LEFT_SHIFT);
+
+    Input::initAxis(AXIS_ROTATE, 1.0);
+    Input::bindKeysToAxis(AXIS_ROTATE, GLFW_KEY_E, GLFW_KEY_Q);
 }

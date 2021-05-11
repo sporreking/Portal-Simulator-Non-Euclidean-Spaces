@@ -30,7 +30,8 @@ class PlayerController : public Component {
 
             // Rotate camera
             glm::vec3 euler = -glm::vec3(Input::axis(AXIS_LOOK_VERTICAL),
-                                         Input::axis(AXIS_LOOK_HORIZONTAL), 0);
+                                         Input::axis(AXIS_LOOK_HORIZONTAL),
+                                         Input::axis(AXIS_ROTATE));
             glm::quat rotDiff = glm::quat(euler * ((float)dt));
             t->rot *= rotDiff;
 
