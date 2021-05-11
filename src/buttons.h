@@ -12,3 +12,4 @@
 #define AXIS_FORWARD 103
 #define AXIS_STRAFE 104
 #define AXIS_ASCEND 105
+#define AXIS_ROTATE 106
