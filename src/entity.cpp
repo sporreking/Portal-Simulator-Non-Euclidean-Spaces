@@ -32,12 +32,12 @@ void Entity::update(double const& dt) {
         e->update(dt);
 }
 
-void Entity::render(glm::mat4 const& m) {
-    for (auto&& c : _components)
-        c->render(m * _transform.matrix());
+void Entity::render(glm::mat4 const& m, COMP::Camera* c) {
+    for (auto&& comp : _components)
+        comp->render(m, c);
 
     for (auto&& e : _children)
-        e->render(m * _transform.matrix());
+        e->render(m * _transform.matrix(), c);
 }
 
 Entity* Entity::addChild(Entity* e) {

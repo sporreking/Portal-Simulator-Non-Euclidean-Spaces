@@ -8,7 +8,8 @@
 #define PRIORITY_HIGHEST 0
 #define PRIORITY_DEFAULT 10
 
-// Component forward declarations
+// Forward declarations
+class World;
 namespace COMP {
 class PointLight;
 class Camera;
@@ -32,7 +33,7 @@ class Room {
     ~Room();
 
     void update(double const& dt);
-    void render(glm::mat4 const& m);
+    void render(glm::mat4 const& m, COMP::Camera* c = nullptr);
 
     Room* addEntity(std::string const& tag, Entity* e, Priority p = PRIORITY_DEFAULT);
     Room* addEntities(std::map<std::string, Entity*> const& m, Priority p = PRIORITY_DEFAULT);
@@ -44,6 +45,7 @@ class Room {
     EntityRef removeEntity(std::string const& tag);
 
     inline RoomID getID() { return _id; }
+    inline World* getWorld() { return _world; }
 
     std::string getTag(Entity* e);
     inline bool hasEntity(std::string const& tag) { return _entities.count(tag); }
@@ -56,10 +58,14 @@ class Room {
 
    private:
     RoomID _id;
+    World* _world;
     std::map<std::string, EntityRef> _entities;
     std::multimap<Priority, Entity*> _priorities;
     std::vector<COMP::Camera*> _cameras;
     std::vector<Component*> _lights;
+
+    // Sets the world of this room
+    inline void _setWorld(World* world) { _world = world; }
 
     // Appends a camera to this room
     void _appendCamera(COMP::Camera* c);
@@ -68,6 +74,9 @@ class Room {
     // Appends a light to this room (only call with light components)
     void _appendLight(Component* c);
     void _removeLight(Component* c);
+
+    // World friend
+    friend class World;
 
     // Camera friend
     friend class COMP::Camera;

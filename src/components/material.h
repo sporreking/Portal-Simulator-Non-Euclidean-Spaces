@@ -16,7 +16,7 @@ class Material : public Component {
         : TEXTURE{tex}, kd{kd}, ks{ks}, alpha{alpha}, color{color} {}
 
     void update(double const &dt) override {}
-    void render(glm::mat4 const &m) override {}
+    void render(glm::mat4 const &m, COMP::Camera *c = nullptr) override {}
     void enterRoom(Room *newRoom) override {}
     void exitRoom(Room *oldRoom) override {}
     void attach() override {}
