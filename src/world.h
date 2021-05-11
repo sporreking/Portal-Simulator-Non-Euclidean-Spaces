@@ -2,7 +2,6 @@
 
 #include <map>
 
-#include "prototypes.h"
 #include "room.h"
 
 // Constants

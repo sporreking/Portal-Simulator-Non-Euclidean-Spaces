@@ -17,27 +17,23 @@ class SkyboxRenderer : public Component {
     void enterRoom(Room* newRoom) override {}
     void exitRoom(Room* oldRoom) override {}
 
-    void render(glm::mat4 const& m) override {
-        // Get cameras
-        std::vector<COMP::Camera*> cameras = _parent->getRoom()->getCameras();
-
-        // Skip render pass if there are no cameras
-        if (cameras.empty())
-            return;
+    void render(glm::mat4 const& m, COMP::Camera* c = nullptr) override {
+        COMP::Camera* camera = _getCamera(c);
+        if (!camera) return;
 
         // Send Material
         _SHADER_PROGRAM->sendMaterial(_material);
         ((Cubemap*)_material->TEXTURE)->bind();
 
         // Set rotation of view transform
-        _viewTransform.rot = cameras[0]->getParent()->getTransform()->rot;
+        _viewTransform.rot = camera->getParent()->getTransform()->rot;
 
         // Send Matrices (no model matrix needed for skybox)
         glUniformMatrix4fv(UNILOC_VIEW_MAT, 1, GL_FALSE,
                            glm::value_ptr(glm::inverse(_viewTransform.matrix())));
 
         glUniformMatrix4fv(UNILOC_PROJECTION_MAT, 1, GL_FALSE,
-                           glm::value_ptr(cameras[0]->projectionMatrix()));
+                           glm::value_ptr(camera->projectionMatrix()));
 
         // Render Mesh
         _mesh->bind();

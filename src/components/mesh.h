@@ -11,7 +11,7 @@ class Mesh : public Component {
     Mesh(::Mesh* mesh) : MESH{mesh} {}
 
     void update(double const& dt) override {}
-    void render(glm::mat4 const& m) override {}
+    void render(glm::mat4 const& m, COMP::Camera* c = nullptr) override {}
     void enterRoom(Room* newRoom) override {}
     void exitRoom(Room* oldRoom) override {}
     void attach() override {}

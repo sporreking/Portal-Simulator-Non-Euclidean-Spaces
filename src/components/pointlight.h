@@ -10,7 +10,7 @@ class PointLight : public Component {
         : color{color}, range{range} {}
 
     void update(double const& dt) override {}
-    void render(glm::mat4 const& m) override {}
+    void render(glm::mat4 const& m, COMP::Camera* c = nullptr) override {}
     void attach() override {}
     void detach() override {}
 

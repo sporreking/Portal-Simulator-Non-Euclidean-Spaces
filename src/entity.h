@@ -21,7 +21,7 @@ class Entity {
     Entity(Entity* parent = nullptr);
     ~Entity();
     void update(double const& dt);
-    void render(glm::mat4 const& m);
+    void render(glm::mat4 const& m, COMP::Camera* c = nullptr);
     Entity* getParent();
     Entity* addChild(Entity* e);
     inline Entity* getChild(size_t id) { return _children.at(id); }

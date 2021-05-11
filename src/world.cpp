@@ -1,10 +1,14 @@
 #include "world.h"
 
+#include "prototypes.h"
+
 World::World(std::string const& name, std::vector<Room*> rooms,
              RoomID startingRoom, glm::vec3 const& startingPos)
     : NAME{name}, _startingRoom{startingRoom}, _startingPos{startingPos} {
-    for (Room* r : rooms)
+    for (Room* r : rooms) {
+        r->_setWorld(this);
         _rooms.emplace(r->getID(), r);
+    }
 
     _player = PROT::newPlayer(1.0, true);
     changeRoom(startingRoom, startingPos);

@@ -5,9 +5,9 @@ void Room::update(double const& dt) {
         e.second->update(dt);
 }
 
-void Room::render(glm::mat4 const& m) {
+void Room::render(glm::mat4 const& m, COMP::Camera* c) {
     for (auto&& e : _priorities)
-        e.second->render(m);
+        e.second->render(m, c);
 }
 
 Room* Room::addEntity(std::string const& tag, Entity* e, Priority p) {
