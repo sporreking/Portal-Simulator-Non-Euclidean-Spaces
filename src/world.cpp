@@ -21,6 +21,26 @@ World::~World() {
 }
 
 void World::update(double const& dt) {
+    _changeRoom();
+
+    _current->update(dt);
+}
+
+void World::render() {
+    // Skip render pass if room was changed in update
+    if (_changeRoom()) return;
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    _current->render(glm::mat4(1.0));
+}
+
+void World::changeRoom(RoomID newRoom, Transform const& newTransform) {
+    _shouldChangeRoom = true;
+    _newRoom = newRoom;
+    _newTransform = newTransform;
+}
+
+bool World::_changeRoom() {
     // Change room if applicable
     if (_shouldChangeRoom) {
         _shouldChangeRoom = false;
@@ -32,19 +52,11 @@ void World::update(double const& dt) {
 
         _setCurrentRoom(_newRoom);
         *_player->getTransform() = _newTransform;
+
+        return true;
     }
 
-    _current->update(dt);
-}
-
-void World::render() {
-    _current->render(glm::mat4(1.0));
-}
-
-void World::changeRoom(RoomID newRoom, Transform const& newTransform) {
-    _shouldChangeRoom = true;
-    _newRoom = newRoom;
-    _newTransform = newTransform;
+    return false;
 }
 
 Room* World::_setCurrentRoom(RoomID id) {

@@ -174,7 +174,7 @@ void linkFunc(WorldContext* ctx, std::vector<Argument> const& args) {
 
     // Create empty link parent if non-existent
     if (!ctx->currentRoom->hasEntity(TAG_LINKS))
-        ctx->currentRoom->addEntity(TAG_LINKS, new Entity);
+        ctx->currentRoom->addEntity(TAG_LINKS, new Entity, PRIORITY_LINKS);
 
     // Create links and append to context
     Entity* link = PROT::newLink(pos, rot, width, height, ctx->frameBuffer);
