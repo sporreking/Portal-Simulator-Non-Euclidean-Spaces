@@ -21,21 +21,18 @@ class PlayerController : public Component {
             float strafe = Input::axis(AXIS_STRAFE) * dt;
             float ascend = Input::axis(AXIS_ASCEND) * dt;
 
-            // Compute directions
-            Transform *t = _parent->getTransform();
-            glm::mat4 m = glm::rotate(glm::mat4(1.0), t->rot.y, glm::vec3(0, 1, 0));
-            m = glm::rotate(m, t->rot.x, glm::vec3(1, 0, 0));
-            m = glm::rotate(m, t->rot.z, glm::vec3(0, 0, 1));
-
             // Translate along scaled directions
+            Transform *t = _parent->getTransform();
             glm::vec3 diff = forward * glm::vec3(0, 0, -1) +
                              strafe * glm::vec3(1, 0, 0) +
                              ascend * glm::vec3(0, 1, 0);
-            t->pos += glm::vec3(m * glm::vec4(diff, 1));
+            t->pos += glm::vec3(glm::toMat4(t->rot) * glm::vec4(diff, 1));
 
-            // Camera
-            t->rot.y -= Input::axis(AXIS_LOOK_HORIZONTAL) * dt;
-            t->rot.x -= Input::axis(AXIS_LOOK_VERTICAL) * dt;
+            // Rotate camera
+            glm::vec3 euler = -glm::vec3(Input::axis(AXIS_LOOK_VERTICAL),
+                                         Input::axis(AXIS_LOOK_HORIZONTAL), 0);
+            glm::quat rotDiff = glm::quat(euler * ((float)dt));
+            t->rot *= rotDiff;
 
         } else {
             //TODO::Fix

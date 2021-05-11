@@ -112,10 +112,8 @@ class LinkRenderer : public Component {
         *res = glm::translate(*res, _parent->getTransform()->pos);
 
         // Rotate target to match source link
-        glm::vec3 rot = _parent->getTransform()->rot - _target->getParent()->getTransform()->rot;
-        *res = glm::rotate(*res, rot.y, glm::vec3(0, 1, 0));
-        *res = glm::rotate(*res, rot.x, glm::vec3(1, 0, 0));
-        *res = glm::rotate(*res, rot.z, glm::vec3(0, 0, 1));
+        glm::quat rot = glm::inverse(_target->getParent()->getTransform()->rot) * _parent->getTransform()->rot;
+        *res *= glm::toMat4(rot);
 
         // Centralize target room around target
         *res = glm::translate(*res, -_target->getParent()->getTransform()->pos);
