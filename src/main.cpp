@@ -35,6 +35,7 @@ int main(void) {
 
     /* GL Config */
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_CLAMP);
 
     /* Set clear color with GLM */
     glm::vec3 clearColor = BACKGROUND_COLOR;
@@ -67,10 +68,11 @@ int main(void) {
         /* Update Time */
         Time::update();
 
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        /* Update */
         world->update(Time::delta());
+
+        /* Render */
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         world->render();
 
         /* Swap front and back buffers */

@@ -31,6 +31,7 @@ light point 0,1,0 1,1,1 5
 # Add links
 # - Usage: link <pos> <rot> <width> <height> <target room ID> <target link ID>
 link 0,5,0 0,0,0 2 2 1 0
+link 7,2,-2 -45,45,0 2 2 1 0
 
 ### Room 1 ###
 # Create room with ID 1

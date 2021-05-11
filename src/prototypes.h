@@ -7,6 +7,7 @@
 #include "components/mesh.h"
 #include "components/phongrenderer.h"
 #include "components/playercontroller.h"
+#include "components/quadcollider.h"
 #include "components/skyboxrenderer.h"
 #include "entity.h"
 

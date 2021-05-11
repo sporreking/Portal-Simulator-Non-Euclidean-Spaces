@@ -28,12 +28,42 @@ Entity* newSkybox(unsigned int id) {
     return skybox;
 }
 
+void linkCollisionFunc(COMP::QuadCollider* col, Entity* player, glm::vec3 const& prevPos, glm::vec3 const& collisionPoint) {
+    // Get link from collider
+    Entity* link = col->getParent();
+
+    // Get target link
+    Entity* target = link->getComponent<COMP::LinkRenderer>()->getTarget()->getParent();
+
+    // Next point in model-space
+    glm::vec3 nextPosLocal = glm::vec3(glm::inverse(link->getGlobalTransformMatrix()) *
+                                       glm::vec4(player->getTransform()->pos, 1));
+
+    // Next point in new room's world-space
+    glm::vec3 nextPos = glm::vec3(target->getGlobalTransformMatrix() * glm::vec4(nextPosLocal, 1));
+
+    // Calculate difference of rotation
+    glm::vec3 rotDiff = target->getTransform()->rot - link->getTransform()->rot;
+
+    // Create new transform for target room endpoint
+    Transform nt;
+    nt.pos = nextPos;
+    nt.rot = player->getTransform()->rot + rotDiff;
+
+    // Change room
+    player->getRoom()->getWorld()->changeRoom(target->getRoom()->getID(), nt);
+
+    // Require refetching of player position due to target teleportation
+    col->resetTarget();
+}
+
 Entity* newLink(glm::vec3 const& pos, glm::vec3 const& rot,
                 double const& width, double const& height, FrameBuffer* frameBuffer) {
     Entity* link = new Entity;
 
     // Add link
     link->addComponent(new COMP::LinkRenderer(frameBuffer));
+    link->addComponent(new COMP::QuadCollider(TAG_PLAYER, linkCollisionFunc));
     link->getTransform()->pos = pos;
     link->getTransform()->rot = rot;
     link->getTransform()->scale = {width, height, 1};
