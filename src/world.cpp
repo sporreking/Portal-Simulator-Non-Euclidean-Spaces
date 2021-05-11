@@ -3,15 +3,15 @@
 #include "prototypes.h"
 
 World::World(std::string const& name, std::vector<Room*> rooms,
-             RoomID startingRoom, glm::vec3 const& startingPos)
-    : NAME{name}, _startingRoom{startingRoom}, _startingPos{startingPos} {
+             RoomID startingRoom, Transform const& startingTransform)
+    : NAME{name}, _startingRoom{startingRoom}, _startingTransform{startingTransform} {
     for (Room* r : rooms) {
         r->_setWorld(this);
         _rooms.emplace(r->getID(), r);
     }
 
     _player = PROT::newPlayer(1.0, true);
-    changeRoom(startingRoom, startingPos);
+    changeRoom(startingRoom, startingTransform);
 }
 
 World::~World() {
@@ -31,7 +31,7 @@ void World::update(double const& dt) {
             getRoom(_newRoom)->addEntity(TAG_PLAYER, _player);
 
         _setCurrentRoom(_newRoom);
-        _player->getTransform()->pos = _newPos;
+        *_player->getTransform() = _newTransform;
     }
 
     _current->update(dt);
@@ -41,10 +41,10 @@ void World::render() {
     _current->render(glm::mat4(1.0));
 }
 
-void World::changeRoom(RoomID newRoom, glm::vec3 const& newPos) {
+void World::changeRoom(RoomID newRoom, Transform const& newTransform) {
     _shouldChangeRoom = true;
     _newRoom = newRoom;
-    _newPos = newPos;
+    _newTransform = newTransform;
 }
 
 Room* World::_setCurrentRoom(RoomID id) {
