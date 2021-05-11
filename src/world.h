@@ -12,6 +12,8 @@
 #define TAG_SKYBOX "skybox"
 #define TAG_WALLS "walls"
 
+#define PRIORITY_LINKS (PRIORITY_DEFAULT + 1)
+
 class World {
    public:
     World(std::string const& name, std::vector<Room*> rooms,
@@ -51,6 +53,10 @@ class World {
     Transform _newTransform;
 
     /* -- Functions -- */
+
+    // Changes the room immediately if World::_shouldChangeRoom is true.
+    // Returns true if the room was changed.
+    bool _changeRoom();
 
     // Sets the current room, and returns the previous.
     Room* _setCurrentRoom(RoomID id);
