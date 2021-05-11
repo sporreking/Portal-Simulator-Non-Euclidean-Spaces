@@ -1,5 +1,7 @@
 #pragma once
 
+#include "color.h"
+
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define WINDOW_TITLE "Non-Euclidean Spaces: Portal Simulator"
@@ -10,3 +12,6 @@
 #define ASPECT_RATIO ((double)WINDOW_WIDTH / WINDOW_HEIGHT)
 #define NEAR_PLANE 0.01
 #define FAR_PLANE 100
+
+#define LINK_MAX_RECURSION_DEPTH 1
+#define LINK_MAX_RECURSION_DEPTH_COLOR COLOR_PURPLE

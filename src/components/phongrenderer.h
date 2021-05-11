@@ -24,14 +24,14 @@ class PhongRenderer : public Component {
 
         // Send Lights
         _SHADER_PROGRAM->bind();
-        _SHADER_PROGRAM->sendLights(_parent->getRoom()->getLights());
+        _SHADER_PROGRAM->sendLights(_parent->getRoom()->getLights(), m);
 
         // Send Material
         _SHADER_PROGRAM->sendMaterial(_material);
         _material->TEXTURE->bind();
 
         // Send Matrices
-        glm::mat4 modelMat = _parent->getGlobalTransformMatrix();
+        glm::mat4 modelMat = m * _parent->getGlobalTransformMatrix();
         glUniformMatrix4fv(UNILOC_MODEL_MAT, 1, GL_FALSE,
                            glm::value_ptr(modelMat));
 
