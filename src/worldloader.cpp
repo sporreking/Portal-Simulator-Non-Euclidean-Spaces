@@ -153,8 +153,10 @@ World* WorldLoader::load(std::string const& filePath) {
     }
 
     // Create world from context
-    World* world = new World(context.name, context.rooms, context.player.room, context.player.pos);
-    world->getPlayer()->getTransform()->rot = context.player.rot;
+    Transform pt;
+    pt.pos = context.player.pos;
+    pt.rot = context.player.rot;
+    World* world = new World(context.name, context.rooms, context.player.room, pt);
     COMP::PlayerController* ctrl = world->getPlayer()->getComponent<COMP::PlayerController>();
     ctrl->speed = context.player.speed;
     ctrl->noclip = context.player.noclip;

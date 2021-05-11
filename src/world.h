@@ -15,7 +15,7 @@
 class World {
    public:
     World(std::string const& name, std::vector<Room*> rooms,
-          RoomID startingRoom, glm::vec3 const& startingPos);
+          RoomID startingRoom, Transform const& startingTransform);
 
     ~World();
     /* -- Core -- */
@@ -23,7 +23,7 @@ class World {
     void update(double const& dt);
     void render();
 
-    void changeRoom(RoomID newRoom, glm::vec3 const& newPos);
+    void changeRoom(RoomID newRoom, Transform const& newTransform);
 
     /* -- Getters -- */
 
@@ -33,7 +33,7 @@ class World {
     inline Entity* getPlayer() { return _player; }
 
     inline RoomID getStartingRoom() { return _startingRoom; }
-    inline glm::vec3 getStartingPos() { return _startingPos; }
+    inline Transform getStartingTransform() { return _startingTransform; }
 
     std::string const NAME;
 
@@ -44,11 +44,11 @@ class World {
     Room* _current{nullptr};
     Entity* _player{nullptr};
     RoomID _startingRoom;
-    glm::vec3 _startingPos;
+    Transform _startingTransform;
 
     bool _shouldChangeRoom{false};
     RoomID _newRoom;
-    glm::vec3 _newPos;
+    Transform _newTransform;
 
     /* -- Functions -- */
 
