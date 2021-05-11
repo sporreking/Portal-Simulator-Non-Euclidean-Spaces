@@ -60,6 +60,10 @@ glm::vec4 Argument::asVec4() const {
     return v;
 }
 
+glm::quat Argument::asEulerRotation() const {
+    return glm::quat(asVec3() / (180 / (float)M_PI));
+}
+
 void Argument::_fillVec(size_t n, float* ptr) const {
     std::string str{_RAW};
     size_t pos{0};

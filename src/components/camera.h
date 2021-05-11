@@ -29,9 +29,7 @@ class Camera : public Component {
     glm::mat4 viewMatrix() {
         Transform* t = _parent->getTransform();
         glm::mat4 m = glm::scale(glm::mat4(1.0), t->scale);
-        m = glm::rotate(m, -t->rot.z, glm::vec3(0, 0, 1));
-        m = glm::rotate(m, -t->rot.x, glm::vec3(1, 0, 0));
-        m = glm::rotate(m, -t->rot.y, glm::vec3(0, 1, 0));
+        m = glm::toMat4(glm::inverse(t->rot)) * m;
         return glm::translate(m, -t->pos);
     }
 

@@ -23,6 +23,8 @@ class Argument {
     glm::vec3 asVec3() const;
     glm::vec4 asVec4() const;
 
+    glm::quat asEulerRotation() const;
+
    private:
     std::string const _RAW;
 
@@ -41,7 +43,7 @@ struct WorldContext {
     struct {
         RoomID room;
         glm::vec3 pos;
-        glm::vec3 rot;
+        glm::quat rot;
         double speed;
         bool noclip;
     } player;

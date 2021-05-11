@@ -53,7 +53,7 @@ void playerFunc(WorldContext* ctx, std::vector<Argument> const& args) {
     // Create player in current room
     ctx->player.room = ctx->currentRoom->getID();
     ctx->player.pos = args[0].asVec3();
-    ctx->player.rot = args[1].asVec3() / (180 / (float)M_PI);
+    ctx->player.rot = args[1].asEulerRotation();
     ctx->player.speed = args[2].asDouble();
     ctx->player.noclip = args[3].asBool();
 }
@@ -69,21 +69,18 @@ void wallFunc(WorldContext* ctx, std::vector<Argument> const& args) {
     // Saturation
     double sat = 0.5;
 
-    // Rotation
-    glm::vec3 rot = args[1].asVec3() / (180 / (float)M_PI);
-
     // Create and append wall entity
     if (args.size() < 5)  // No color, nor thickness
         ctx->currentRoom->getEntity(TAG_WALLS)
-            ->addChild(PROT::newWall(args[0].asVec3(), rot,
+            ->addChild(PROT::newWall(args[0].asVec3(), args[1].asEulerRotation(),
                                      args[2].asDouble(), args[3].asDouble()));
     else if (args.size() < 6)  // No thickness
         ctx->currentRoom->getEntity(TAG_WALLS)
-            ->addChild(PROT::newWall(args[0].asVec3(), rot,
+            ->addChild(PROT::newWall(args[0].asVec3(), args[1].asEulerRotation(),
                                      args[2].asDouble(), args[3].asDouble(), args[4].asColor(sat)));
     else  // Color and thickness
         ctx->currentRoom->getEntity(TAG_WALLS)
-            ->addChild(PROT::newWall(args[0].asVec3(), rot,
+            ->addChild(PROT::newWall(args[0].asVec3(), args[1].asEulerRotation(),
                                      args[2].asDouble(), args[3].asDouble(),
                                      args[4].asColor(sat), args[5].asDouble()));
 }
@@ -121,7 +118,7 @@ void objFunc(WorldContext* ctx, std::vector<Argument> const& args) {
 
     std::string meshName = args[0].asString();
     glm::vec3 pos = args[1].asVec3();
-    glm::vec3 rot = args[2].asVec3() / (180 / (float)M_PI);
+    glm::quat rot = args[2].asEulerRotation();
     glm::vec3 scale = args[3].asVec3();
 
     std::string texName = args[4].asString();
@@ -164,7 +161,7 @@ void linkFunc(WorldContext* ctx, std::vector<Argument> const& args) {
     assertValidRoom(ctx);
 
     glm::vec3 pos = args[0].asVec3();
-    glm::vec3 rot = args[1].asVec3() / (180 / (float)M_PI);
+    glm::quat rot = args[1].asEulerRotation();
 
     double width = args[2].asDouble();
     double height = args[3].asDouble();

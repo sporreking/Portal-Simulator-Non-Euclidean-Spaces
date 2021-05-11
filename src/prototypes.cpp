@@ -5,7 +5,7 @@ Entity* newPlayer(double const& speed, bool noclip) {
     return (new Entity)->addComponents({new COMP::PlayerController(speed, noclip), (new COMP::Camera)->setPerspective(FOV, ASPECT_RATIO, NEAR_PLANE, FAR_PLANE)});
 }
 
-Entity* newWall(glm::vec3 const& pos, glm::vec3 const& rot,
+Entity* newWall(glm::vec3 const& pos, glm::quat const& rot,
                 double const& width, double const& height,
                 glm::vec3 const& color, double const& thickness) {
     Entity* e = (new Entity)->addComponents({new COMP::Mesh(REG::MESHES().get(MESH_CUBE)), new COMP::Material(REG::TEXTURES().get(TEXTURE_WALL), 1, 0, 0, color), new COMP::PhongRenderer()});
@@ -29,32 +29,32 @@ Entity* newSkybox(unsigned int id) {
 }
 
 void linkCollisionFunc(COMP::QuadCollider* col, Entity* player, glm::vec3 const& prevPos, glm::vec3 const& collisionPoint) {
-    // Get link from collider
+    // Get link entity from collider
     Entity* link = col->getParent();
 
     // Get target link
     Entity* target = link->getComponent<COMP::LinkRenderer>()->getTarget()->getParent();
 
-    // Next point in model-space
-    glm::vec3 nextPosLocal = glm::vec3(glm::inverse(link->getGlobalTransformMatrix()) *
-                                       glm::vec4(player->getTransform()->pos, 1));
+    // Player position in link model-space
+    glm::vec3 playerPosLocal = glm::vec3(glm::inverse(link->getGlobalTransformMatrix()) *
+                                         glm::vec4(player->getTransform()->pos, 1));
 
-    // Next point in new room's world-space
-    glm::vec3 nextPos = glm::vec3(target->getGlobalTransformMatrix() * glm::vec4(nextPosLocal, 1));
+    // Player position in target room's world-space
+    glm::vec3 nextPos = glm::vec3(target->getGlobalTransformMatrix() * glm::vec4(playerPosLocal, 1));
 
-    // Calculate difference of rotation
-    glm::vec3 rotDiff = target->getTransform()->rot - link->getTransform()->rot;
+    // Calculate link orientation difference
+    glm::quat rotDiff = target->getTransform()->rot * glm::inverse(link->getTransform()->rot);
 
     // Create new transform for target room endpoint
     Transform nt;
     nt.pos = nextPos;
-    nt.rot = player->getTransform()->rot + rotDiff;
+    nt.rot = rotDiff * player->getTransform()->rot;
 
     // Change room
     player->getRoom()->getWorld()->changeRoom(target->getRoom()->getID(), nt);
 }
 
-Entity* newLink(glm::vec3 const& pos, glm::vec3 const& rot,
+Entity* newLink(glm::vec3 const& pos, glm::quat const& rot,
                 double const& width, double const& height) {
     Entity* link = new Entity;
 
