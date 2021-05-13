@@ -60,7 +60,7 @@ glm::vec4 Argument::asVec4() const {
     return v;
 }
 
-glm::quat Argument::asEulerRotation() const {
+glm::quat Argument::asQuatFromEuler() const {
     return glm::quat(asVec3() / (180 / (float)M_PI));
 }
 

@@ -23,7 +23,7 @@ class Argument {
     glm::vec3 asVec3() const;
     glm::vec4 asVec4() const;
 
-    glm::quat asEulerRotation() const;
+    glm::quat asQuatFromEuler() const;
 
    private:
     std::string const _RAW;
