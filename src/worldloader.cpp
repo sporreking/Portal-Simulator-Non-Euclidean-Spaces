@@ -91,7 +91,6 @@ World* WorldLoader::load(std::string const& filePath) {
     std::string key;
     std::vector<Argument> args;
     WorldContext context;
-    context.frameBuffer = new FrameBuffer(WINDOW_WIDTH, WINDOW_HEIGHT, true);
     size_t line{0};
     while (!stream.eof()) {
         std::getline(stream, cmd);

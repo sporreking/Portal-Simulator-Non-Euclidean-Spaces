@@ -58,11 +58,11 @@ void linkCollisionFunc(COMP::QuadCollider* col, Entity* player, glm::vec3 const&
 }
 
 Entity* newLink(glm::vec3 const& pos, glm::vec3 const& rot,
-                double const& width, double const& height, FrameBuffer* frameBuffer) {
+                double const& width, double const& height) {
     Entity* link = new Entity;
 
     // Add link
-    link->addComponent(new COMP::LinkRenderer(frameBuffer));
+    link->addComponent(new COMP::LinkRenderer());
     link->addComponent(new COMP::QuadCollider(TAG_PLAYER, linkCollisionFunc));
     link->getTransform()->pos = pos;
     link->getTransform()->rot = rot;

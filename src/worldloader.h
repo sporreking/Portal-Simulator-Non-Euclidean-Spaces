@@ -38,7 +38,6 @@ struct LinkConnection {
 // Configuration used to create a world
 struct WorldContext {
     std::string name;
-    FrameBuffer* frameBuffer;
     struct {
         RoomID room;
         glm::vec3 pos;

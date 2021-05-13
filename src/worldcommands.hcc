@@ -177,7 +177,7 @@ void linkFunc(WorldContext* ctx, std::vector<Argument> const& args) {
         ctx->currentRoom->addEntity(TAG_LINKS, new Entity, PRIORITY_LINKS);
 
     // Create links and append to context
-    Entity* link = PROT::newLink(pos, rot, width, height, ctx->frameBuffer);
+    Entity* link = PROT::newLink(pos, rot, width, height);
     ctx->currentRoom->getEntity(TAG_LINKS)->addChild(link);
     ctx->links.emplace(link, (LinkConnection){roomID, linkID});
 }
