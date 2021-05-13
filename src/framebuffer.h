@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "config.h"
 #include "texture.h"
 
@@ -18,7 +20,12 @@ class FrameBuffer {
 
     inline GLuint getHandle() { return _handle; }
 
+    /* -- Static -- */
+
     static void bindDefault();
+    static inline FrameBuffer *get(size_t id) { return _frameBuffers.at(id); }
+    static void init();
+    static void free();
 
    private:
     /* -- Parameters -- */
@@ -33,4 +40,8 @@ class FrameBuffer {
     Texture *_texture;
 
     void _createFrameBuffer();
+
+    /* -- Static -- */
+
+    static std::vector<FrameBuffer *> _frameBuffers;
 };

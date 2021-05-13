@@ -58,6 +58,9 @@ int main(void) {
     /* Initialize registries */
     REG::init();
 
+    /* Initialize frame buffers */
+    FrameBuffer::init();
+
     /* Initialize Time */
     Time::init();
 
@@ -85,6 +88,9 @@ int main(void) {
     }
 
     delete world;
+
+    /* Free frame buffers */
+    FrameBuffer::free();
 
     glfwTerminate();
     return 0;

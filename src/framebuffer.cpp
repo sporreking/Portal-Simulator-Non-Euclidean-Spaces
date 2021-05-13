@@ -22,6 +22,17 @@ void FrameBuffer::bindDefault() {
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
+void FrameBuffer::init() {
+    for (size_t i{0}; i < NR_FRAME_BUFFERS; i++)
+        _frameBuffers.push_back(new FrameBuffer(WINDOW_WIDTH, WINDOW_HEIGHT, true));
+}
+
+void FrameBuffer::free() {
+    for (size_t i{0}; i < NR_FRAME_BUFFERS; i++)
+        delete _frameBuffers[i];
+    _frameBuffers.clear();
+}
+
 void FrameBuffer::_createFrameBuffer() {
     // Generate frame buffer
     glGenFramebuffers(1, &_handle);
@@ -58,3 +69,5 @@ void FrameBuffer::_createFrameBuffer() {
     // Unbind frame buffer
     bindDefault();
 }
+
+std::vector<FrameBuffer *> FrameBuffer::_frameBuffers;
