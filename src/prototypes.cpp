@@ -52,9 +52,6 @@ void linkCollisionFunc(COMP::QuadCollider* col, Entity* player, glm::vec3 const&
 
     // Change room
     player->getRoom()->getWorld()->changeRoom(target->getRoom()->getID(), nt);
-
-    // Require refetching of player position due to target teleportation
-    col->resetTarget();
 }
 
 Entity* newLink(glm::vec3 const& pos, glm::vec3 const& rot,
