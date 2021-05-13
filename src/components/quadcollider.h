@@ -2,6 +2,7 @@
 
 #include "../component.h"
 #include "../room.h"
+#include "../time.h"
 
 namespace COMP {
 
@@ -23,8 +24,11 @@ class QuadCollider : public Component {
     void detach() override {}
 
     void update(double const &dt) override {
-        // Get target
-        if (!_target) {
+        // Get current time to check if previous target position is obsolete
+        double now = Time::current();
+
+        // Retrieve target if non-existant or obsolete
+        if (!_target || _targetPrevPosStamp < now - dt) {
             Entity *target = _parent->getRoom()->getEntity(_targetName);
 
             // If target was just found, skip first frame
@@ -32,10 +36,13 @@ class QuadCollider : public Component {
             if (target) {
                 _targetPrevPos = target->getTransform()->pos;
                 _target = target;
+                _targetPrevPosStamp = now;
             }
 
             return;
         }
+
+        _targetPrevPosStamp = now;
 
         // Player position
         glm::vec3 pos = _target->getTransform()->pos;
@@ -71,6 +78,7 @@ class QuadCollider : public Component {
     std::string _targetName;
     Entity *_target{nullptr};
     glm::vec3 _targetPrevPos{0};
+    double _targetPrevPosStamp{0};
     QuadCollisionFunc _handler;
 };
 }  // namespace COMP
