@@ -49,7 +49,7 @@ class QuadCollider : public Component {
         if (prevPos.z * newPos.z < 0) {
             // Collision point in model-space
             float zDist = std::abs(prevPos.z) + std::abs(newPos.z);
-            glm::vec3 p = prevPos + zDist * (newPos - prevPos);
+            glm::vec3 p = prevPos + (std::abs(prevPos.z) / zDist) * (newPos - prevPos);
 
             // Check if within quad bounds
             if (p.x > -.5 && p.x < .5 && p.y > -.5 && p.y < .5) {
