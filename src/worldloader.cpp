@@ -89,6 +89,10 @@ void Argument::_fillVec(size_t n, float* ptr) const {
 
 World* WorldLoader::load(std::string const& filePath) {
     std::ifstream stream(filePath);
+    if (stream.fail()) {
+        std::cerr << "Error in WorldLoader: Could not find file path: " << filePath << std::endl;
+        exit(-1);
+    }
 
     size_t pos{0};
     std::string cmd;
