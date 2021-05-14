@@ -25,8 +25,8 @@ class LinkRenderer : public Component {
 
     void render(glm::mat4 const& m, COMP::Camera* c = nullptr) override {
         // Check if entry link
-        if (isEntryLink) {
-            isEntryLink = false;
+        if (_isEntryLink) {
+            _isEntryLink = false;
             return;
         }
 
@@ -48,12 +48,12 @@ class LinkRenderer : public Component {
             glUniform3fv(UNILOC_MATERIAL_COLOR, 1, glm::value_ptr(LINK_MAX_RECURSION_DEPTH_COLOR));
         } else {
             // Render target room
-            _target->isEntryLink = true;
+            _target->_isEntryLink = true;
 
             glm::mat4 t{1.0};
             _linkTransitionTransform(&t);
 
-            FrameBuffer::get(LinkRenderer::_depthSignal - 1)->bind();
+            FrameBuffer::getColorBuffer(LinkRenderer::_depthSignal - 1)->bind();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             _target->getParent()->getRoom()->render(t * m, camera);
 
@@ -61,13 +61,13 @@ class LinkRenderer : public Component {
             if (LinkRenderer::_depthSignal <= 1)
                 FrameBuffer::bindDefault();
             else
-                FrameBuffer::get(LinkRenderer::_depthSignal - 2)->bind();
+                FrameBuffer::getColorBuffer(LinkRenderer::_depthSignal - 2)->bind();
 
             // Rebind shader program
             _SHADER_PROGRAM->bind();
 
             // Bind target room texture
-            FrameBuffer::get(LinkRenderer::_depthSignal - 1)->texture()->bind();
+            FrameBuffer::getColorBuffer(LinkRenderer::_depthSignal - 1)->texture()->bind();
 
             glUniform1i(UNILOC_USE_TEXTURE, GL_TRUE);
             glUniform3fv(UNILOC_MATERIAL_COLOR, 1, glm::value_ptr(COLOR_WHITE));
@@ -121,6 +121,6 @@ class LinkRenderer : public Component {
 
     // Global signal for recursion depth
     inline static uint32_t _depthSignal{0};
-    bool isEntryLink{false};
+    bool _isEntryLink{false};
 };
 }  // namespace COMP
