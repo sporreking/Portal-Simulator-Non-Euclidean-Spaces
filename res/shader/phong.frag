@@ -19,6 +19,14 @@ layout(location=2002) uniform float alpha;
 layout(location=2003) uniform vec3 color;
 layout(location=2004) uniform sampler2D tex;
 
+// Uniform Control
+layout(location=3002) uniform bool useMinDepth;
+layout(location=3003) uniform sampler2D texMinDepth;
+
+// Uniform Info
+layout(location=4000) uniform float windowWidth;
+layout(location=4001) uniform float windowHeight;
+
 // Attributes
 layout(location=0) in vec3 in_Position;
 layout(location=1) in vec3 in_Normal;
@@ -33,13 +41,19 @@ layout(location=0) out vec4 out_Color;
 // Constants
 const float AMBIENT_STRENGTH = 0.1;
 const vec3 AMBIENT_COLOR = vec3(1.0, 1.0, 1.0);
+const float MIN_DEPTH_GUARD = 0.000001;
 
 // Light types
 #define LIGHT_TYPE_POINT 0
 #define LIGHT_TYPE_DIRECTIONAL 1
 
 void main() {
-    
+    // Minimum depth control check
+    if (useMinDepth) {
+        vec2 minDepthTexCoords = vec2(gl_FragCoord.x / windowWidth, gl_FragCoord.y / windowHeight);
+        if (gl_FragCoord.z < texture(texMinDepth, minDepthTexCoords).r + MIN_DEPTH_GUARD) discard;
+    }
+
     vec3 normal = normalize(pass_Normal);
 
     // Ambient lighting

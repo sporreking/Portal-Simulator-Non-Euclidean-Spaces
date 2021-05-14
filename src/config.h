@@ -18,4 +18,4 @@
 
 // Number of static frame buffers
 #define NR_COLOR_BUFFERS LINK_MAX_RECURSION_DEPTH
-#define NR_DEPTH_BUFFERS 1
+#define NR_DEPTH_BUFFERS LINK_MAX_RECURSION_DEPTH
