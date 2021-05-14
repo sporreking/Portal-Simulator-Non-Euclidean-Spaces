@@ -28,7 +28,7 @@ class QuadCollider : public Component {
         double now = Time::current();
 
         // Retrieve target if non-existant or obsolete
-        if (!_target || _targetPrevPosStamp < now - dt) {
+        if (!_target || _targetPrevPosStamp < now - dt || _targetPrevPosMinTimeStamp >= now - dt) {
             Entity *target = _parent->getRoom()->getEntity(_targetName);
 
             // If target was just found, skip first frame
@@ -74,11 +74,15 @@ class QuadCollider : public Component {
     // Instead, the collider updates its conception of the previous target position.
     inline void resetTarget() { _target = nullptr; }
 
+    static inline void resetAllTargets() { _targetPrevPosMinTimeStamp = Time::current(); }
+
    private:
     std::string _targetName;
     Entity *_target{nullptr};
     glm::vec3 _targetPrevPos{0};
     double _targetPrevPosStamp{0};
     QuadCollisionFunc _handler;
+
+    static inline double _targetPrevPosMinTimeStamp{0};
 };
 }  // namespace COMP
