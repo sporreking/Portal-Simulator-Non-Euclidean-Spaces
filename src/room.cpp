@@ -35,7 +35,7 @@ Room* Room::addEntities(std::map<std::string, Entity*> const& m, Priority p) {
 }
 
 Entity* Room::transferEntity(std::string const& tag, Room* target, std::string const& newTag) {
-    if (!hasEntity(tag) || target->hasEntity(tag)) {
+    if (!hasEntity(tag) || (target != this && target->hasEntity(tag))) {
         std::cerr << "Could not transfer entity with tag \"" << tag << "\"" << std::endl;
         throw -1;
     }
@@ -47,7 +47,7 @@ Entity* Room::transferEntity(std::string const& tag, Room* target, std::string c
 }
 
 Entity* Room::retrieveEntity(std::string const& tag, Room* from, std::string const& newTag) {
-    if (hasEntity(tag) || !from->hasEntity(tag)) {
+    if (!from->hasEntity(tag) || (from != this && hasEntity(tag))) {
         std::cerr << "Could not retrieve entity with tag \"" << tag << "\"" << std::endl;
         throw -1;
     }
