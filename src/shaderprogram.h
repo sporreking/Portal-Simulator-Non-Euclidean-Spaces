@@ -35,10 +35,15 @@
 // Control
 #define UNILOC_USE_LIGHTING 3000
 #define UNILOC_USE_TEXTURE 3001
+#define UNILOC_USE_MIN_DEPTH 3002
+#define UNILOC_MIN_DEPTH_SAMPLER 3003
 
 // Info
 #define UNILOC_WINDOW_WIDTH 4000
 #define UNILOC_WINDOW_HEIGHT 4001
+
+// Texture locations
+#define TEXLOC_MIN_DEPTH 31
 
 // Light types
 #define LIGHT_TYPE_POINT 0
@@ -57,12 +62,15 @@ class ShaderProgram {
 
     ShaderProgram* sendMaterial(COMP::Material* const material, uint32_t sampler = 0);
 
-    inline ShaderProgram* bind() {
-        glUseProgram(_handle);
-        return this;
-    };
+    ShaderProgram* bind();
 
     inline GLuint getHandle() { return _handle; }
+
+    /* -- Static -- */
+
+    // Set nullptr to disable
+    static Texture* setMinDepthTexture(Texture* t);
+    static inline Texture* getMinDepthTexture() { return _minDepthTexture; }
 
    private:
     void _linkShaders(std::vector<Shader*> const& shaders);
@@ -79,4 +87,8 @@ class ShaderProgram {
     // Point lights
 
     float _lightRanges[MAX_LIGHTS];
+
+    /* -- Static -- */
+
+    static Texture* _minDepthTexture;
 };

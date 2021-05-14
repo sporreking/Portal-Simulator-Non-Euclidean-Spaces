@@ -55,6 +55,24 @@ ShaderProgram* ShaderProgram::sendMaterial(COMP::Material* const material,
     return this;
 }
 
+ShaderProgram* ShaderProgram::bind() {
+    glUseProgram(_handle);
+
+    // Send window information
+    glUniform1f(UNILOC_WINDOW_WIDTH, WINDOW_WIDTH);
+    glUniform1f(UNILOC_WINDOW_HEIGHT, WINDOW_HEIGHT);
+
+    // Enforce minimum depth if applicable
+    if (_minDepthTexture) {
+        glUniform1i(UNILOC_USE_MIN_DEPTH, GL_TRUE);
+        _minDepthTexture->bind(TEXLOC_MIN_DEPTH);
+        glUniform1i(UNILOC_MIN_DEPTH_SAMPLER, TEXLOC_MIN_DEPTH);
+    } else
+        glUniform1i(UNILOC_USE_MIN_DEPTH, GL_FALSE);
+
+    return this;
+}
+
 void ShaderProgram::_linkShaders(std::vector<Shader*> const& shaders) {
     // Attach shaders
     for (Shader* shader : shaders)
@@ -93,3 +111,11 @@ void ShaderProgram::_linkShaders(std::vector<Shader*> const& shaders) {
 ShaderProgram::~ShaderProgram() {
     glDeleteProgram(_handle);
 }
+
+Texture* ShaderProgram::setMinDepthTexture(Texture* t) {
+    Texture* old = _minDepthTexture;
+    _minDepthTexture = t;
+    return old;
+}
+
+Texture* ShaderProgram::_minDepthTexture{nullptr};
