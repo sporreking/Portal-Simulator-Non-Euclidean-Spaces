@@ -52,6 +52,10 @@ void linkCollisionFunc(COMP::QuadCollider* col, Entity* player, glm::vec3 const&
 
     // Change room
     player->getRoom()->getWorld()->changeRoom(target->getRoom()->getID(), nt);
+
+    // Reset all quad colliders if the links are in the same room
+    if (link->getRoom() == target->getRoom())
+        COMP::QuadCollider::resetAllTargets();
 }
 
 Entity* newLink(glm::vec3 const& pos, glm::quat const& rot,
