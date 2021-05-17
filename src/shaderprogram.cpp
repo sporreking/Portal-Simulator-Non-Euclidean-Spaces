@@ -59,8 +59,8 @@ ShaderProgram* ShaderProgram::bind() {
     glUseProgram(_handle);
 
     // Send window information
-    glUniform1f(UNILOC_WINDOW_WIDTH, WINDOW_WIDTH);
-    glUniform1f(UNILOC_WINDOW_HEIGHT, WINDOW_HEIGHT);
+    glUniform1f(UNILOC_WINDOW_WIDTH, (float)_windowWidth);
+    glUniform1f(UNILOC_WINDOW_HEIGHT, (float)_windowHeight);
 
     // Enforce minimum depth if applicable
     if (_minDepthTexture) {
@@ -119,3 +119,5 @@ Texture* ShaderProgram::setMinDepthTexture(Texture* t) {
 }
 
 Texture* ShaderProgram::_minDepthTexture{nullptr};
+uint32_t ShaderProgram::_windowWidth{WINDOW_WIDTH};
+uint32_t ShaderProgram::_windowHeight{WINDOW_HEIGHT};

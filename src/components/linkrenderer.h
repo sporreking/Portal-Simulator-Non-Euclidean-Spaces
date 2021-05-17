@@ -71,6 +71,9 @@ class LinkRenderer : public Component {
 
         // Render minimum depth control texture for next room
         FrameBuffer* depthBuffer = FrameBuffer::getDepthBuffer(LinkRenderer::_depthSignal - 1)->bind();
+        ShaderProgram::setWindowWidth(depthBuffer->getWidth());
+        ShaderProgram::setWindowHeight(depthBuffer->getHeight());
+        _SHADER_PROGRAM->bind();
         glUniform1i(UNILOC_USE_TEXTURE, GL_FALSE);
         glClear(GL_DEPTH_BUFFER_BIT);
         _renderMesh(m, camera);
@@ -85,10 +88,15 @@ class LinkRenderer : public Component {
         ShaderProgram::setMinDepthTexture(oldMinDepthTexture);
 
         // Bind previous frame buffer
-        if (LinkRenderer::_depthSignal <= 1)
+        if (LinkRenderer::_depthSignal <= 1) {
             FrameBuffer::bindDefault();
-        else
-            FrameBuffer::getColorBuffer(LinkRenderer::_depthSignal - 2)->bind();
+            ShaderProgram::setWindowWidth(WINDOW_WIDTH);
+            ShaderProgram::setWindowHeight(WINDOW_HEIGHT);
+        } else {
+            FrameBuffer* colorBuffer = FrameBuffer::getColorBuffer(LinkRenderer::_depthSignal - 2)->bind();
+            ShaderProgram::setWindowWidth(colorBuffer->getWidth());
+            ShaderProgram::setWindowHeight(colorBuffer->getHeight());
+        }
 
         // Rebind shader program
         _SHADER_PROGRAM->bind();
