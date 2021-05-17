@@ -25,13 +25,22 @@ class SkyboxRenderer : public Component {
         _SHADER_PROGRAM->sendMaterial(_material);
         ((Cubemap*)_material->TEXTURE)->bind();
 
-        // Set rotation of view transform
-        _viewTransform.rot = camera->getParent()->getTransform()->rot;
+        // Remove translation from matrices
+        glm::mat4 t = m;
+        t[3][0] = 0;
+        t[3][1] = 0;
+        t[3][2] = 0;
 
-        // Send Matrices (no model matrix needed for skybox)
+        glm::mat4 camMat = camera->viewMatrix();
+        camMat[3][0] = 0;
+        camMat[3][1] = 0;
+        camMat[3][2] = 0;
+
+        // Send Matrices
+        glUniformMatrix4fv(UNILOC_MODEL_MAT, 1, GL_FALSE,
+                           glm::value_ptr(t));
         glUniformMatrix4fv(UNILOC_VIEW_MAT, 1, GL_FALSE,
-                           glm::value_ptr(glm::inverse(_viewTransform.matrix())));
-
+                           glm::value_ptr(camMat));
         glUniformMatrix4fv(UNILOC_PROJECTION_MAT, 1, GL_FALSE,
                            glm::value_ptr(camera->projectionMatrix()));
 
