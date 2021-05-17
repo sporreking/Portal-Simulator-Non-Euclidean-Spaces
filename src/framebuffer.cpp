@@ -29,11 +29,15 @@ void FrameBuffer::bindDefault() {
 }
 
 void FrameBuffer::init() {
-    for (size_t i{0}; i < NR_COLOR_BUFFERS; i++)
-        _colorBuffers.push_back(new FrameBuffer(WINDOW_WIDTH, WINDOW_HEIGHT, true, DepthBufferConfig::WRITE_ONLY));
+    for (size_t i{0}; i < NR_COLOR_BUFFERS; i++) {
+        double fac = std::pow(FRAME_BUFFER_RESOLUTION_FALLOFF, i);
+        _colorBuffers.push_back(new FrameBuffer(WINDOW_WIDTH * fac, WINDOW_HEIGHT * fac, true, DepthBufferConfig::WRITE_ONLY));
+    }
 
-    for (size_t i{0}; i < NR_DEPTH_BUFFERS; i++)
-        _depthBuffers.push_back(new FrameBuffer(WINDOW_WIDTH, WINDOW_HEIGHT, false, DepthBufferConfig::READ_WRITE));
+    for (size_t i{0}; i < NR_DEPTH_BUFFERS; i++) {
+        double fac = std::pow(FRAME_BUFFER_RESOLUTION_FALLOFF, i);
+        _depthBuffers.push_back(new FrameBuffer(WINDOW_WIDTH * fac, WINDOW_HEIGHT * fac, false, DepthBufferConfig::READ_WRITE));
+    }
 }
 
 void FrameBuffer::free() {

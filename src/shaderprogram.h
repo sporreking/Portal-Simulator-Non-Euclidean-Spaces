@@ -71,6 +71,8 @@ class ShaderProgram {
     // Set nullptr to disable
     static Texture* setMinDepthTexture(Texture* t);
     static inline Texture* getMinDepthTexture() { return _minDepthTexture; }
+    static inline void setWindowWidth(uint32_t w) { _windowWidth = w; }
+    static inline void setWindowHeight(uint32_t h) { _windowHeight = h; }
 
    private:
     void _linkShaders(std::vector<Shader*> const& shaders);
@@ -91,4 +93,6 @@ class ShaderProgram {
     /* -- Static -- */
 
     static Texture* _minDepthTexture;
+    static uint32_t _windowWidth;
+    static uint32_t _windowHeight;
 };
