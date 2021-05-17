@@ -17,6 +17,5 @@ Entity* newWall(glm::vec3 const& pos, glm::quat const& rot,
                 double const& width, double const& height,
                 glm::vec3 const& color = glm::vec3(1, 1, 1), double const& thickness = 0.05);
 Entity* newSkybox(unsigned int id);
-Entity* newLink(glm::vec3 const& pos, glm::quat const& rot,
-                double const& width, double const& height);
+Entity* newLink(glm::vec3 const& pos, glm::quat const& rot, glm::vec3 const& scale);
 }  // namespace PROT

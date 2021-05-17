@@ -163,18 +163,17 @@ void linkFunc(WorldContext* ctx, std::vector<Argument> const& args) {
     glm::vec3 pos = args[0].asVec3();
     glm::quat rot = args[1].asQuatFromEuler();
 
-    double width = args[2].asDouble();
-    double height = args[3].asDouble();
+    glm::vec3 scale = args[2].asVec3();
 
-    RoomID roomID = args[4].asInt();
-    LinkID linkID = args[5].asInt();
+    RoomID roomID = args[3].asInt();
+    LinkID linkID = args[4].asInt();
 
     // Create empty link parent if non-existent
     if (!ctx->currentRoom->hasEntity(TAG_LINKS))
         ctx->currentRoom->addEntity(TAG_LINKS, new Entity, PRIORITY_LINKS);
 
     // Create links and append to context
-    Entity* link = PROT::newLink(pos, rot, width, height);
+    Entity* link = PROT::newLink(pos, rot, scale);
     ctx->currentRoom->getEntity(TAG_LINKS)->addChild(link);
     ctx->links.emplace(link, (LinkConnection){roomID, linkID});
 }
@@ -187,5 +186,5 @@ void WorldLoader::init() {
     _commands.emplace("wall", std::make_pair(wallFunc, 4));
     _commands.emplace("light", std::make_pair(lightFunc, 3));
     _commands.emplace("obj", std::make_pair(objFunc, 8));
-    _commands.emplace("link", std::make_pair(linkFunc, 6));
+    _commands.emplace("link", std::make_pair(linkFunc, 5));
 }

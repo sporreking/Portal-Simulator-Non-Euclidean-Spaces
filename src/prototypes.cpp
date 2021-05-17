@@ -49,6 +49,7 @@ void linkCollisionFunc(COMP::QuadCollider* col, Entity* player, glm::vec3 const&
     Transform nt;
     nt.pos = nextPos;
     nt.rot = rotDiff * player->getTransform()->rot;
+    nt.scale = player->getTransform()->scale * link->getTransform()->scale / target->getTransform()->scale;
 
     // Change room
     player->getRoom()->getWorld()->changeRoom(target->getRoom()->getID(), nt);
@@ -58,8 +59,7 @@ void linkCollisionFunc(COMP::QuadCollider* col, Entity* player, glm::vec3 const&
         COMP::QuadCollider::resetAllTargets();
 }
 
-Entity* newLink(glm::vec3 const& pos, glm::quat const& rot,
-                double const& width, double const& height) {
+Entity* newLink(glm::vec3 const& pos, glm::quat const& rot, glm::vec3 const& scale) {
     Entity* link = new Entity;
 
     // Add link
@@ -67,7 +67,7 @@ Entity* newLink(glm::vec3 const& pos, glm::quat const& rot,
     link->addComponent(new COMP::QuadCollider(TAG_PLAYER, linkCollisionFunc));
     link->getTransform()->pos = pos;
     link->getTransform()->rot = rot;
-    link->getTransform()->scale = {width, height, 1};
+    link->getTransform()->scale = {scale.x, scale.y, scale.z};
 
     return link;
 }

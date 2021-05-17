@@ -23,9 +23,9 @@ class PlayerController : public Component {
 
             // Translate along scaled directions
             Transform *t = _parent->getTransform();
-            glm::vec3 diff = forward * glm::vec3(0, 0, -1) +
-                             strafe * glm::vec3(1, 0, 0) +
-                             ascend * glm::vec3(0, 1, 0);
+            glm::vec3 diff = forward / t->scale.z * glm::vec3(0, 0, -1) +
+                             strafe / t->scale.x * glm::vec3(1, 0, 0) +
+                             ascend / t->scale.y * glm::vec3(0, 1, 0);
             t->pos += glm::vec3(glm::toMat4(t->rot) * glm::vec4(diff, 1));
 
             // Rotate camera
