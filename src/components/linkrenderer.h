@@ -138,6 +138,9 @@ class LinkRenderer : public Component {
         glm::quat rot = glm::inverse(_target->getParent()->getTransform()->rot) * _parent->getTransform()->rot;
         *res *= glm::toMat4(rot);
 
+        // Scale room
+        *res = glm::scale(*res, _parent->getTransform()->scale / _target->getParent()->getTransform()->scale);
+
         // Centralize target room around target
         *res = glm::translate(*res, -_target->getParent()->getTransform()->pos);
     }
