@@ -1,0 +1,33 @@
+world ResizeRoom
+
+### Room 0 ###
+# Create room with ID 1
+room 0 7
+
+# Add player spawn
+player 0,0,0 0,0,0 2.0 true
+
+# Add walls
+wall 0,0,0 90,0,0 6 9 white # Floor
+wall 0,4,0 90,0,0 6 9 purple # Roof
+
+wall 2,2,4.5 0,0,0 2 4 yellow # Front 1
+wall -2,2,4.5 0,0,0 2 4 yellow # Front 2
+wall 0,3,4.5 0,0,0 2 2 yellow # Front 3
+
+wall 1.75,2,-4.5 0,0,0 2.5 4 blue # Back 1
+wall -1.75,2,-4.5 0,0,0 2.5 4 blue # Back 2
+wall 0,2.5,-4.5 0,0,0 1 3 blue # Back 3
+
+wall -3,2,0 0,90,0 9 4 red # Left
+wall 3,2,0 0,90,0 9 4 red # Right
+
+# Add objects
+obj cube 0,2,0 45,45,0 .5,.5,.5 wall .7 .7 90 white
+
+# Add lights
+light point 0,2,0 1,1,1 5
+
+# Add links
+link 0,1,4.5 0,0,0 2,2,2 0 1
+link 0,1,-4.45 0,0,90 2,2,2 0 0

@@ -1,0 +1,89 @@
+# Set world title
+# - Usage: world <name>
+world MattesWorld
+
+### Room 0 ###
+# Create room with ID 0
+room 0 5
+
+# Spawn player in current room
+# - Usage: player <pos> <rot> <speed> <noclip>
+player -1,0.5,3 0,0,0 10.0 true
+
+# Add walls
+# - Usage: wall <pos> <rot> <width> <height> [color] [thickness]
+wall 0,0,0 90,0,0 8 8 white # Floor
+wall 0,4,0 90,0,0 8 8 purple # Roof
+
+wall -2,2,4 0,0,0 4 4 black # Front - link1
+wall 4,2,-2 0,90,0 4 4 black # Front - link2
+
+wall 0,2,-4 0,0,0 8 4 green # Back
+wall 2,2,0 0,0,0 4 4 green # Back 2
+
+wall -4,2,0 0,90,0 8 4 green # Left
+wall 0,2,2 0,90,0 4 4 green # Right
+
+# Add lights
+# - Usage: light <type> <pos> <color> <... depends on type>
+# - Usage: light point <pos> <color> <range>
+light point -1,2,-1 1,1,1 5
+
+# Add links
+# - Usage: link <pos> <rot> <width> <height> <target room ID> <target link ID>
+link -2,2,3.95 0,180,0 4,4,4 2 1
+link 3.95,2,-2 0,90,0 4,4,4 1 0
+
+
+
+### Room 1 ###
+# Create room with ID 1
+room 1 5
+
+# Add walls
+wall 0,0,0 90,0,0 8 8 white # Floor
+wall 0,4,0 90,0,0 8 8 purple # Roof
+
+wall -2,2,4 0,0,0 4 4 black # Front - link1
+wall 4,2,-2 0,90,0 4 4 black # Front - link2
+
+wall 0,2,-4 0,0,0 8 4 blue # Back
+wall 2,2,0 0,0,0 4 4 blue # Back 2
+
+wall -4,2,0 0,90,0 8 4 blue # Left
+wall 0,2,2 0,90,0 4 4 blue # Right
+
+obj cube -3,1,-3 45,45,0 .5,.5,.5 wall .7 .7 90 white
+
+light point -1,2,-1 1,1,1 5
+
+# Add links
+link -2,2,3.95 0,180,0 4,4,4 0 1
+link 3.95,2,-2 0,90,0 4,4,4 2 0
+
+
+
+### Room 2 ###
+# Create Room with ID 2
+room 2 5
+
+# Add walls
+wall 0,0,0 90,0,0 8 8 white # Floor
+wall 0,4,0 90,0,0 8 8 purple # Roof
+
+wall -2,2,4 0,0,0 4 4 black # Front - link1
+wall 4,2,-2 0,90,0 4 4 black # Front - link2
+
+wall 0,2,-4 0,0,0 8 4 yellow # Back
+wall 2,2,0 0,0,0 4 4 yellow # Back 2
+
+wall -4,2,0 0,90,0 8 4 yellow # Left
+wall 0,2,2 0,90,0 4 4 yellow # Right
+
+obj bunny -3,0.3,-3 0,45,0 .5,.5,.5 wall .45 1 100 red
+
+light point -1,2,-1 1,1,1 5
+
+# Add links
+link -2,2,3.95 0,180,0 4,4,4 1 1
+link 3.95,2,-2 0,90,0 4,4,4 0 0

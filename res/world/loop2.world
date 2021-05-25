@@ -1,0 +1,40 @@
+# Set world title
+# - Usage: world <name>
+world loop2
+
+### Room 0 ###
+# Create room with ID 0
+room 0 5
+
+# Spawn player in current room
+# - Usage: player <pos> <rot> <speed> <noclip>
+player 0,0.5,0 0,0,0 10.0 true
+
+# Add walls
+# - Usage: wall <pos> <rot> <width> <height> [color] [thickness]
+wall 0,0,0 90,0,0 6 9 white # Floor
+wall 0,4,0 90,0,0 6 9 purple # Roof
+
+wall 2,2,4.5 0,0,0 2 4 red # Front 1
+wall -2,2,4.5 0,0,0 2 4 red # Front 2
+wall 0,3,4.5 0,0,0 2 2 red # Front 3
+
+wall 0,2,-4.5 0,0,0 6 4 yellow # Back
+
+wall -3,2,0 0,90,0 9 4 green # Left
+wall 3,2,0 0,90,0 9 4 cyan # Right
+
+# Add objects
+# - Usage: obj <mesh> <pos> <rot> <scale> <texture> <kd> <ks> <alpha> [color]
+obj cube 0,1.75,0 45,45,0 .5,.5,.5 wall .7 .7 90 white
+obj bunny .5,0.3,.5 0,45,0 .5,.5,.5 wall .45 1 100 red
+
+# Add lights
+# - Usage: light <type> <pos> <color> <... depends on type>
+# - Usage: light point <pos> <color> <range>
+light point 0,2,0 1,1,1 5
+
+# Add links
+# - Usage: link <pos> <rot> <width> <height> <target room ID> <target link ID>
+link 0,1,4.5 0,0,0 2,2,2 0 1
+link 0,1,-4.45 0,0,0 2,2,2 0 0

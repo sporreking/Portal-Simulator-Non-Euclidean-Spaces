@@ -1,0 +1,35 @@
+world Mirage
+
+#### Room 0 ####
+room 0 1
+
+player 0,0,0 0,0,0 2.0 true
+
+light point 0,1,0 1,1,1 5
+
+wall 0,0,0 90,0,0 4 10 white # Floor
+wall 2,2.5,0 0,90,0 10 5 yellow # Wall 1
+wall -2,2.5,0 0,90,0 10 5 purple # Wall 2
+wall 0,2.5,5 0,0,0 4 5 red # Wall 3
+wall 0,2.5,-5 0,0,0 4 5 cyan # Wall 4
+
+wall 0,2,3 0,0,0 0.05 4
+
+link 0,1,4 0,90,0 2,2,2 1 0
+
+#### Room 1 ####
+room 1 1
+
+obj bunny 0,0.5,-3 0,0,0 2,2,2 default 1 0 0 yellow
+
+light point 0,1,0 1,1,1 5
+
+wall 0,0,0 90,0,0 4 10 white # Floor
+wall 2,2.5,0 0,90,0 10 5 yellow # Wall 1
+wall -2,2.5,0 0,90,0 10 5 purple # Wall 2
+wall 0,2.5,5 0,0,0 4 5 red # Wall 3
+wall 0,2.5,-5 0,0,0 4 5 cyan # Wall 4
+
+wall 0,2,3 0,0,0 0.05 4
+
+link 0,1,4 0,90,0 2,2,2 0 0
